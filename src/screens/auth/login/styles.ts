@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
     },
     text:{
         fontWeight:'bold'
+    },
+    logo:{
+        width:180,
+        resizeMode:'contain',
     }
 });
 
