@@ -1,26 +1,55 @@
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 import { IInputComponentProps } from './index.d';
+import { COLORS } from '@src/themes/colors';
 
 const InputComponent:React.FC<IInputComponentProps> = props =>{
     const {
         leftContent,
         rightContent,
+        errorMessage,
         ...inputProps
     } = props;
-    return (
-        <View style={styles.container}>
-            <View>
+
+
+    const renderLeftContent = () =>{
+        return  leftContent && <View style={styles.leftContent}>
                 {leftContent}
             </View>
-            <TextInput
-                placeholder={inputProps.placeholder}
-                keyboardType={inputProps.keyboardType}
-                autoCapitalize={inputProps.autoCapitalize}
-                secureTextEntry={inputProps.secureTextEntry}
-            />
-            <View>
+    }
+
+    const renderRightContent = () =>{
+        return  rightContent && <View style={styles.rightContent}>
                 {rightContent}
+            </View>
+    }
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.wrapperInput}>
+                {renderLeftContent()}         
+                <TextInput
+                    placeholder={inputProps.placeholder}
+                    keyboardType={inputProps.keyboardType}
+                    autoCapitalize={inputProps.autoCapitalize}
+                    secureTextEntry={inputProps.secureTextEntry}
+                    style={[
+                        styles.textInput,
+                        { width: 
+                            leftContent && rightContent
+                            ? '70%'
+                            : leftContent || rightContent
+                            ? '85%'
+                            : '100%'
+                        }
+                    ]}
+                />
+                {renderRightContent()}
+            </View>
+            <View>
+                <Text style={styles.errorMessage}>
+                    {errorMessage}
+                </Text>
             </View>
         </View>
     );
@@ -29,22 +58,42 @@ const InputComponent:React.FC<IInputComponentProps> = props =>{
 const styles = StyleSheet.create({
     container:{
         width:'100%',
+    },
+    wrapperInput:{
+        width:'100%',
         height:50,
 
-        justifyContent:'center',
-        alignItems:'flex-start',
+        flexDirection:'row',
+         
 
         borderRadius:6,
-        backgroundColor:'#fff',
-        paddingHorizontal:10,
-
+        backgroundColor:COLORS.white,
+        
         marginVertical:10,
     },
     leftContent:{
+        width:'15%',
+        height:50,
 
+        backgroundColor:COLORS.light,
+
+        borderTopLeftRadius:6,
+        borderBottomLeftRadius:6
+    },
+    textInput:{
+       paddingHorizontal:8,
     },
     rightContent:{
+        width:'15%',
+        height:50,
 
+        backgroundColor:COLORS.light,
+
+        borderTopRightRadius:6,
+        borderBottomRightRadius:6
+    },
+    errorMessage:{
+        color:COLORS.danger
     }
 });
 

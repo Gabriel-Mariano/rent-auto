@@ -19,10 +19,15 @@ const Login:React.FC = () =>{
                 placeholder="Informe seu email"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                errorMessage="Preencha o campo"
+                leftContent={()=><View/>}
             />
             <InputComponent 
                 placeholder="Informe sua senha" 
                 secureTextEntry
+                errorMessage="Preencha o campo"
+                leftContent={()=><View/>}
+                rightContent={()=><View/>}
             />
             <Button title="Entrar" />
             <Button 
