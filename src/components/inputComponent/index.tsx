@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet, Pressable } from 'react-native';
 import { IInputComponentProps } from './index.d';
 import { COLORS } from '@src/themes/colors';
 
@@ -7,21 +7,23 @@ const InputComponent:React.FC<IInputComponentProps> = props =>{
     const {
         leftContent,
         rightContent,
+        showPassword,
         errorMessage,
         ...inputProps
     } = props;
 
-
     const renderLeftContent = () =>{
-        return  leftContent && <View style={styles.leftContent}>
+        return  leftContent && 
+            <View style={styles.leftContent}>
                 {leftContent}
             </View>
     }
 
     const renderRightContent = () =>{
-        return  rightContent && <View style={styles.rightContent}>
+        return  rightContent && 
+            <Pressable style={styles.rightContent} onPress={showPassword}>
                 {rightContent}
-            </View>
+            </Pressable>
     }
 
     return (
@@ -75,6 +77,9 @@ const styles = StyleSheet.create({
         width:'15%',
         height:50,
 
+        justifyContent:'center',
+        alignItems:'center',
+
         backgroundColor:COLORS.light,
 
         borderTopLeftRadius:6,
@@ -87,7 +92,8 @@ const styles = StyleSheet.create({
         width:'15%',
         height:50,
 
-        backgroundColor:COLORS.light,
+        justifyContent:'center',
+        alignItems:'center',
 
         borderTopRightRadius:6,
         borderBottomRightRadius:6
