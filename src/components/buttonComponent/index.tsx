@@ -18,7 +18,9 @@ const ButtonComponent:React.FC<IButtonComponentProps> = props =>{
                 { 
                     backgroundColor:backgroundColor ? backgroundColor : COLORS.primary,
                 }
-            ]}>
+            ]}
+            onPress={buttonProps.onPress}
+            >
             <Text style={[
                 styles.text,
                 {
@@ -33,7 +35,7 @@ const ButtonComponent:React.FC<IButtonComponentProps> = props =>{
 
 const styles = StyleSheet.create({
     container:{
-      width:'100%',
+      width:300,
       height:55,
       
       justifyContent:'center',

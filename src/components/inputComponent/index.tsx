@@ -59,7 +59,7 @@ const InputComponent:React.FC<IInputComponentProps> = props =>{
 
 const styles = StyleSheet.create({
     container:{
-        width:'100%',
+        width:300,
     },
     wrapperInput:{
         width:'100%',
