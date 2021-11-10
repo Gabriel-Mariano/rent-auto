@@ -8,13 +8,19 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         backgroundColor:COLORS.dark,
     },
-    text:{
-        fontWeight:'bold'
-    },
     logo:{
         width:180,
         resizeMode:'contain',
         alignSelf:'center'
+    },
+    linking:{
+        alignSelf:'flex-end',
+        fontWeight:'bold',
+        color:COLORS.white,
+        textDecorationLine:'underline',
+        padding:10,
+        marginBottom:12, 
     }
+    
 });
 
