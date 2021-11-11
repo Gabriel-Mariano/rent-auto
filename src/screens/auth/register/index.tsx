@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image, KeyboardAvoidingView, Platform, Keyboard, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -15,37 +15,37 @@ import InputComponent from '@src/components/inputComponent';
 
 
 
-const Register:React.FC = () =>{
+const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
-    const goToLogin = () => navigation.navigate('Login');
-    
+    const goToLogin = () => navigation.navigate('SignIn');
+
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios"?"padding" : "height"}  keyboardVerticalOffset={-50}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={-50}>
                 <Pressable onPress={Keyboard.dismiss}>
-                    <Image 
-                        source={Logo} 
+                    <Image
+                        source={Logo}
                         accessibilityLabel='identidade Visual'
                         style={styles.logo}
                     />
-                    <InputComponent 
+                    <InputComponent
                         value={username}
-                        onChangeText={(text)=> setUsername(text) }
+                        onChangeText={(text) => setUsername(text)}
                         placeholder="Informe seu nome"
                         autoCapitalize="none"
                         errorMessage="Preencha o campo"
                         leftContent={<Icon name="account" size={18} color={COLORS.dark}
                         />}
                     />
-                    <InputComponent 
+                    <InputComponent
                         value={email}
-                        onChangeText={(text)=> setEmail(text) }
+                        onChangeText={(text) => setEmail(text)}
                         placeholder="Informe seu melhor email"
                         keyboardType="email-address"
                         autoCapitalize="none"
@@ -53,21 +53,21 @@ const Register:React.FC = () =>{
                         leftContent={<Icon name="email" size={18} color={COLORS.dark}
                         />}
                     />
-                    <InputComponent 
+                    <InputComponent
                         value={password}
-                        onChangeText={(text)=> setPassword(text) }
-                        placeholder="Informe uma senha" 
+                        onChangeText={(text) => setPassword(text)}
+                        placeholder="Informe uma senha"
                         errorMessage="Preencha o campo"
                         leftContent={<Icon name="lock" size={18} color={COLORS.dark}
                         />}
                     />
-                
-                    <Button 
-                        title="Cadastrar" 
-                        onPress={()=>{}}
+
+                    <Button
+                        title="Cadastrar"
+                        onPress={() => { }}
                     />
-                    <Button 
-                        title="Voltar" 
+                    <Button
+                        title="Voltar"
                         color={COLORS.primary}
                         backgroundColor={COLORS.secondary}
                         onPress={goToLogin}

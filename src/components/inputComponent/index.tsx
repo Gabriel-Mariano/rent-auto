@@ -31,6 +31,8 @@ const InputComponent:React.FC<IInputComponentProps> = props =>{
             <View style={styles.wrapperInput}>
                 {renderLeftContent()}         
                 <TextInput
+                    onChangeText={inputProps.onChangeText}
+                    value={inputProps.value}
                     placeholder={inputProps.placeholder}
                     keyboardType={inputProps.keyboardType}
                     autoCapitalize={inputProps.autoCapitalize}

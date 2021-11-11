@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import { 
-    View, 
-    Text, 
-    Image, 
-    KeyboardAvoidingView, 
-    Platform, 
-    Keyboard, 
+import React, { useState, useContext } from 'react';
+import {
+    View,
+    Text,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Keyboard,
     Pressable,
-    TouchableOpacity,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
@@ -22,24 +21,31 @@ import Logo from '@src/assets/images/identidadeVisual.png';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '@src/components/buttonComponent';
 import InputComponent from '@src/components/inputComponent';
+import AuthContext from '@src/contexts/auth';
 
 
-
-const Login:React.FC = () =>{
+const SignIn: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
 
+    const { signIn, user } = useContext(AuthContext);
+
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
-    const showPassword = () =>{
+    const handleSignIn = async () => {
+        await signIn({ email, password });
+    }
+
+
+    const showPassword = () => {
         setIsVisible(!isVisible);
     }
 
     const renderIconEyes = () => {
         return isVisible
-        ? <Icon name="eye" size={18} color={COLORS.dark}/>
-        : <Icon name="eye-off" size={18} color={COLORS.dark}/>
+            ? <Icon name="eye" size={18} color={COLORS.dark} />
+            : <Icon name="eye-off" size={18} color={COLORS.dark} />
     }
 
     const goToHome = () => navigation.navigate('Home');
@@ -48,19 +54,22 @@ const Login:React.FC = () =>{
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios"?"padding" : "height"}  keyboardVerticalOffset={-50}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={-50}
+            >
                 <Pressable onPress={Keyboard.dismiss}>
                     <View>
-                        <Image 
-                            source={Logo} 
+                        <Image
+                            source={Logo}
                             accessibilityLabel='identidade Visual'
                             style={styles.logo}
                         />
                     </View>
                     <View>
-                        <InputComponent 
+                        <InputComponent
                             value={email}
-                            onChangeText={(text)=> setEmail(text) }
+                            onChangeText={(text) => setEmail(text)}
                             placeholder="Informe seu email"
                             keyboardType="email-address"
                             autoCapitalize="none"
@@ -68,10 +77,10 @@ const Login:React.FC = () =>{
                             leftContent={<Icon name="email" size={18} color={COLORS.dark}
                             />}
                         />
-                        <InputComponent 
+                        <InputComponent
                             value={password}
-                            onChangeText={(text)=> setPassword(text) }
-                            placeholder="Informe sua senha" 
+                            onChangeText={(text) => setPassword(text)}
+                            placeholder="Informe sua senha"
                             secureTextEntry={!isVisible}
                             errorMessage="Preencha o campo"
                             leftContent={<Icon name="lock" size={18} color={COLORS.dark}
@@ -84,12 +93,12 @@ const Login:React.FC = () =>{
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
-                        <Button 
-                            title="Entrar" 
-                            onPress={goToHome}
+                        <Button
+                            title="Entrar"
+                            onPress={handleSignIn}
                         />
-                        <Button 
-                            title="Cadastrar" 
+                        <Button
+                            title="Cadastrar"
                             color={COLORS.primary}
                             backgroundColor={COLORS.secondary}
                             onPress={goToRegister}
@@ -101,4 +110,4 @@ const Login:React.FC = () =>{
     );
 }
 
-export default Login;
+export default SignIn;
