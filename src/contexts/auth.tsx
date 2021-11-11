@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useState } from "react";
+import React, { createContext, useCallback, useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@src/services/api.default';
 
 interface ISignInPros {
@@ -11,7 +12,6 @@ interface IResponse {
     username:string;
 }
 
-
 interface IAuthContextData {
     signed:boolean;
     user:string | null;
@@ -22,8 +22,22 @@ interface IAuthContextData {
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
-    const [isLoading,setIsLoading] = useState(false);
+    const [isLoading,setIsLoading] = useState(true);
     const [user, setUser] = useState('');
+
+    useEffect(()=>{
+        const loadStorageData = async () =>{
+            const storagedUser = await  AsyncStorage.getItem('@rentAuto:username');
+            const storagedToken = await AsyncStorage.getItem('@rentAuto:token');
+
+            if( storagedUser && storagedToken){
+                setUser(storagedUser);
+                setIsLoading(false);
+            }
+        }
+
+        loadStorageData();
+    },[]);
 
     const signIn = useCallback(async({ email, password }:ISignInPros) => {
         const dataFormat = {
@@ -34,7 +48,11 @@ export const AuthProvider: React.FC = ({children}) => {
             const { data } = await api.post<IResponse>('/login',dataFormat);
 
             const { token, username } = data;
+
             setUser(username);
+            AsyncStorage.setItem('@rentAuto:username',username);
+            AsyncStorage.setItem('@rentAuto:token',token);
+
         }catch(err){
             /* console.log(err) */
         }
