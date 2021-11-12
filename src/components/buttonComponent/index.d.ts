@@ -4,6 +4,7 @@ interface IButtonComponentProps extends TouchableOpacityProps {
     title:string;
     color?:string;
     backgroundColor?:string;
+    inProgress?:boolean;
 }
 
 export { IButtonComponentProps };

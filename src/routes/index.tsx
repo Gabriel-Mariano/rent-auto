@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ActivityIndicator, View, Text } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { COLORS } from '@src/themes/colors';
 
 import AuthContext from '@src/contexts/auth';

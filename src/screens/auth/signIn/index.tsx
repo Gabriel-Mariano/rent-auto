@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
 import { StackParams } from '@src/routes/app_routes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { validateEmail } from '@src/utils/validations';
 
 import { styles } from './styles';
 import { COLORS } from '@src/themes/colors';
@@ -27,16 +28,49 @@ import AuthContext from '@src/contexts/auth';
 const SignIn: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-
-    const { signIn, user } = useContext(AuthContext);
+    const [inProgress, setInProgress ] = useState(false);
+    
+    const { signIn } = useContext(AuthContext);
 
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
     const handleSignIn = async () => {
+        if(!fieldsValidate()){
+            return;
+        }
+        setInProgress(true);
         await signIn({ email, password });
+        setInProgress(false);
     }
 
+    const fieldsValidate = () => {
+        if(!email){
+            setErrorEmail('Preencha o campo');
+        }else{
+            setErrorEmail('');
+        }
+        if(!password){
+            setErrorPassword('Preencha o campo');
+        }else{
+            setErrorPassword('');
+        }
+        
+        if(!email || !password){
+            return false;
+        }
+
+        if (!validateEmail(email)) {
+            setErrorEmail('E-mail é inválido');
+            return false;
+        }
+
+        setErrorEmail('');
+        setErrorPassword('');
+        return true;
+    }
 
     const showPassword = () => {
         setIsVisible(!isVisible);
@@ -48,7 +82,7 @@ const SignIn: React.FC = () => {
             : <Icon name="eye-off" size={18} color={COLORS.dark} />
     }
 
-    const goToHome = () => navigation.navigate('Home');
+
     const goToRegister = () => navigation.navigate('Register');
     const goToForgotPassword = () => console.log('Go to forgot password ');
 
@@ -73,7 +107,7 @@ const SignIn: React.FC = () => {
                             placeholder="Informe seu email"
                             keyboardType="email-address"
                             autoCapitalize="none"
-                            errorMessage="Preencha o campo"
+                            errorMessage={errorEmail}
                             leftContent={<Icon name="email" size={18} color={COLORS.dark}
                             />}
                         />
@@ -82,7 +116,7 @@ const SignIn: React.FC = () => {
                             onChangeText={(text) => setPassword(text)}
                             placeholder="Informe sua senha"
                             secureTextEntry={!isVisible}
-                            errorMessage="Preencha o campo"
+                            errorMessage={errorPassword}
                             leftContent={<Icon name="lock" size={18} color={COLORS.dark}
                             />}
                             rightContent={renderIconEyes}
@@ -95,6 +129,7 @@ const SignIn: React.FC = () => {
                     <View>
                         <Button
                             title="Entrar"
+                            inProgress={inProgress}
                             onPress={handleSignIn}
                         />
                         <Button
