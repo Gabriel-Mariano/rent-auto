@@ -1,39 +1,15 @@
 import React, { createContext, useCallback, useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@src/services/api.default';
-import { Alert, StatusBarIOS } from "react-native";
-import { IUserType } from './auth.d';
-
-interface ISignInPros {
-    email:string;
-    password:string;
-}
-
-interface IRegisterProps {
-    username:string;
-    email:string;
-    password:string;
-}
-
-interface IResponse {
-    token:string;
-    user:IUserType;
-}
-
-interface IRegisterResponse {
-    token:string;
-    user:IUserType;
-}
-
-interface IAuthContextData {
-    signed:boolean;
-    user:IUserType | null;
-    setUser:React.Dispatch<React.SetStateAction<IUserType | null>>;
-    signIn:(data:ISignInPros)=>Promise<void>;
-    signOut:()=>void;
-    register:(data:IRegisterProps)=>Promise<any>;
-    isLoading:boolean;
-}
+import { Alert } from "react-native";
+import { 
+    IUserType, 
+    ISignInPros, 
+    IRegisterProps, 
+    ISignInResponse,
+    IRegisterResponse,
+    IAuthContextData  
+} from './auth.d';
 
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
@@ -56,9 +32,8 @@ export const AuthProvider: React.FC = ({children}) => {
     },[]);
 
     const signIn = useCallback(async({ email, password}:ISignInPros) => {
-        console.log('ou')
         try{
-            const { data } = await api.post<IResponse>('/login',{ email, password });
+            const { data } = await api.post<ISignInResponse>('/login',{ email, password });
 
             const { token, user } = data;
             

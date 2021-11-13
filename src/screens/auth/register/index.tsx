@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image, KeyboardAvoidingView, Platform, Keyboard, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { StackParams } from '@src/routes/app_routes';
+import { StackAuthRoutesParams } from '@src/routes/unauthenticated/index.d';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { styles } from './styles';
@@ -28,15 +28,15 @@ const Register: React.FC = () => {
 
     const { register, setUser } = useContext(AuthContext);
 
-    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+    const navigation = useNavigation<NativeStackNavigationProp<StackAuthRoutesParams>>();
 
     const goToLogin = () => navigation.navigate('SignIn');
 
     const handleRegister = async () => {
-        if(!fieldsValidade()){
+        if(!fieldsValidate()){
             return;
         }
-        
+
         setInProgress(true);
         const data = await register({ username, email, password });
         setInProgress(false);
@@ -44,7 +44,7 @@ const Register: React.FC = () => {
         data.status === 201 && successResponse();
     }
 
-    const fieldsValidade = () => {
+    const fieldsValidate = () => {
         if(!username){
             setErrorUsername('Preencha o campo');
         }else{
@@ -97,11 +97,11 @@ const Register: React.FC = () => {
             describe="Sua conta foi criada com sucesso 🎉. Agora você será redirecionado para Home."
             isVisible={isVisible}
             buttonText="Ok"
-            onClose={onClose}
+            onClose={closeModal}
         />
     );
 
-    const onClose = () => {
+    const closeModal = () => {
         setIsVisible(false);
         setUser({ 
             username:username, 

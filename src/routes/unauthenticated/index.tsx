@@ -4,12 +4,6 @@ import Register from '@src/screens/auth/register';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export type StackParams = {
-    SignIn: undefined;
-    Register: undefined;
-    Home: undefined;
-}
-
 const AuthStack = createNativeStackNavigator();
 
 const AuthRoutes: React.FC = () => (

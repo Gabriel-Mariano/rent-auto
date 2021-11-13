@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core';
-import { StackParams } from '@src/routes/app_routes';
+import { StackAuthRoutesParams } from '@src/routes/unauthenticated/index.d';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { validateEmail } from '@src/utils/validations';
 
@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
     
     const { signIn } = useContext(AuthContext);
 
-    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
+    const navigation = useNavigation<NativeStackNavigationProp<StackAuthRoutesParams>>();
 
     const handleSignIn = async () => {
         if(!fieldsValidate()){

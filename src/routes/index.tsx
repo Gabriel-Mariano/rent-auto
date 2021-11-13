@@ -3,8 +3,8 @@ import { ActivityIndicator, View } from 'react-native';
 import { COLORS } from '@src/themes/colors';
 
 import AuthContext from '@src/contexts/auth';
-import AuthRoutes from './auth_routes';
-import AppRoutes from './app_routes';
+import AuthRoutes from './unauthenticated';
+import AppRoutes from './authenticated';
 
 const Routes: React.FC = () =>{
     const { user, isLoading } = useContext(AuthContext);
