@@ -14,38 +14,81 @@ import Button from '@src/components/buttonComponent';
 import InputComponent from '@src/components/inputComponent';
 import ModalComponent from '@src/components/modal';
 import AuthContext from '@src/contexts/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import { validateEmail } from '@src/utils/validations';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [errorUsername, setErrorUsername] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
+    const [inProgress, setInProgress] = useState(false);
 
-    const { register, user } = useContext(AuthContext);
+    const { register, setUser } = useContext(AuthContext);
 
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
     const goToLogin = () => navigation.navigate('SignIn');
 
     const handleRegister = async () => {
-        const status = await register({ username, email, password });
+        if(!fieldsValidade()){
+            return;
+        }
         
-        status === 201
-        ? successResponse(status)
-        : failedResponse(status)
-        
+        setInProgress(true);
+        const data = await register({ username, email, password });
+        setInProgress(false);
+
+        data.status === 201 && successResponse();
     }
 
-    const successResponse = (status:number) =>{ 
+    const fieldsValidade = () => {
+        if(!username){
+            setErrorUsername('Preencha o campo');
+        }else{
+            setErrorUsername('');
+        }
+        if(!email){
+            setErrorEmail('Preencha o campo');
+        }else{
+            setErrorEmail('');
+        }
+        if(!password){
+            setErrorPassword('Preencha o campo');
+        }else{
+            setErrorPassword('');
+        }
+
+        if(!username || !email || !password) {
+            return false;
+        }
+
+        if(!validateEmail(email)){
+            setErrorEmail('E-mail é inválido');
+            return false;
+        }
+
+        setErrorUsername('');
+        setErrorEmail('');
+        setErrorPassword('');
+        return true;
+    }
+
+    const successResponse = () => { 
         setIsVisible(true);
     }   
 
-    const failedResponse = (status:number) => {
-        Alert.alert('Opss','Usuário já existente 😑');
+
+    const showPassword = () => {
+        setIsVisible(!isVisible);
+    }
+
+    const renderIconEyes = () => {
+        return isVisible
+            ? <Icon name="eye" size={18} color={COLORS.dark} />
+            : <Icon name="eye-off" size={18} color={COLORS.dark} />
     }
 
     const renderModal = () => (
@@ -60,6 +103,10 @@ const Register: React.FC = () => {
 
     const onClose = () => {
         setIsVisible(false);
+        setUser({ 
+            username:username, 
+            email:email, 
+        });
     }
 
 
@@ -77,7 +124,7 @@ const Register: React.FC = () => {
                         onChangeText={(text) => setUsername(text)}
                         placeholder="Informe seu nome"
                         autoCapitalize="none"
-                        errorMessage="Preencha o campo"
+                        errorMessage={errorUsername}
                         leftContent={<Icon name="account" size={18} color={COLORS.dark}
                         />}
                     />
@@ -87,22 +134,26 @@ const Register: React.FC = () => {
                         placeholder="Informe seu melhor email"
                         keyboardType="email-address"
                         autoCapitalize="none"
-                        errorMessage="Preencha o campo"
+                        errorMessage={errorEmail}
                         leftContent={<Icon name="email" size={18} color={COLORS.dark}
                         />}
                     />
                     <InputComponent
                         value={password}
                         onChangeText={(text) => setPassword(text)}
-                        placeholder="Informe uma senha"
-                        errorMessage="Preencha o campo"
+                        placeholder="Informe sua senha"
+                        secureTextEntry={!isVisible}
+                        errorMessage={errorPassword}
                         leftContent={<Icon name="lock" size={18} color={COLORS.dark}
                         />}
+                        rightContent={renderIconEyes}
+                        showPassword={showPassword}
                     />
 
                     <Button
                         title="Cadastrar"
                         onPress={handleRegister}
+                        inProgress={inProgress}
                     />
                     <Button
                         title="Voltar"

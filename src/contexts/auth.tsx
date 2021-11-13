@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '@src/services/api.default';
 import { Alert, StatusBarIOS } from "react-native";
+import { IUserType } from './auth.d';
 
 interface ISignInPros {
     email:string;
@@ -16,21 +17,18 @@ interface IRegisterProps {
 
 interface IResponse {
     token:string;
-    username:string;
+    user:IUserType;
 }
 
 interface IRegisterResponse {
     token:string;
-    user:{
-        username:string;
-        email:string;
-        password:string;
-    }
+    user:IUserType;
 }
 
 interface IAuthContextData {
     signed:boolean;
-    user:string | null;
+    user:IUserType | null;
+    setUser:React.Dispatch<React.SetStateAction<IUserType | null>>;
     signIn:(data:ISignInPros)=>Promise<void>;
     signOut:()=>void;
     register:(data:IRegisterProps)=>Promise<any>;
@@ -41,15 +39,15 @@ const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
     const [isLoading,setIsLoading] = useState(true);
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState<IUserType | null>(null);
 
     useEffect(()=>{
         const loadStorageData = async () =>{
-            const storagedUser = await  AsyncStorage.getItem('@rentAuto:username');
+            const storagedUser = await  AsyncStorage.getItem('@rentAuto:user');
             const storagedToken = await AsyncStorage.getItem('@rentAuto:token');
 
             if( storagedUser && storagedToken){
-                setUser(storagedUser);
+                setUser(JSON.parse(storagedUser));
             }
             setIsLoading(false);
         }
@@ -58,50 +56,52 @@ export const AuthProvider: React.FC = ({children}) => {
     },[]);
 
     const signIn = useCallback(async({ email, password}:ISignInPros) => {
+        console.log('ou')
         try{
             const { data } = await api.post<IResponse>('/login',{ email, password });
 
-            const { token, username } = data;
-
-            setUser(username);
-            await AsyncStorage.setItem('@rentAuto:username',username);
+            const { token, user } = data;
+            
+            setUser(user);
+            await AsyncStorage.setItem('@rentAuto:username',user.username);
             await AsyncStorage.setItem('@rentAuto:token',token);
 
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         
         }catch(err){
-            Alert.alert("Ops","Falha na autenticação");
+            if(err.response.status === 401){
+                console.log(err.response)
+                return Alert.alert("Ops",err.response.data.message || "Falha na autenticação"); 
+            }
+            Alert.alert("Ops","Houve uma falha. Tente novamente mais tarde!");
         }
         
     },[]);
 
     const signOut = () =>{
         AsyncStorage.clear();
-        setUser('');
+        setUser(null);
     }
 
     const register = useCallback(async({username,email,password}:IRegisterProps) => {
-        const dataFormat = {
-            username,
-            email,
-            password
-        }
         try {
-            const  data  = await api.post<IRegisterResponse>('/register', dataFormat);
+            const  data  = await api.post<IRegisterResponse>('/register', { username, email, password });
 
             const { token, user } = data.data;
-            const { status } = data; 
-
-            await AsyncStorage.setItem('@rentAuto:username',JSON.stringify(user.username));
-            await AsyncStorage.setItem('@rentAuto:email',JSON.stringify(user.email));
+            
+            await AsyncStorage.setItem('@rentAuto:username',user.username);
+            await AsyncStorage.setItem('@rentAuto:email',user.email);
             await AsyncStorage.setItem('@rentAuto:token',token);
 
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-            return status;
+            return data;
 
         }catch(err){
-            /* console.log(err) */
+            if(err.response.status === 409){
+                return Alert.alert("Ops...", err?.response?.data?.message || "Usuário já existente 😑");
+            }
+            Alert.alert("Ops...", err.response.message || "Houve uma falha. Tente novamente mais tarde!");   
         }
     },[]);
     
@@ -109,7 +109,8 @@ export const AuthProvider: React.FC = ({children}) => {
         <AuthContext.Provider 
             value={{ 
                 signed:!!user, 
-                user, 
+                user,
+                setUser, 
                 isLoading, 
                 signIn,
                 signOut, 
