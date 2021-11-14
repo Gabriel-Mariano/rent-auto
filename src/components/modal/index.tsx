@@ -5,9 +5,8 @@ import { IModalComponentProps } from './index.d';
 import { COLORS } from '@src/themes/colors';
 
 import Modal from 'react-native-modal';
-import Button from '../buttonComponent';
+import Button from '../Button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 const ModalComponent:React.FC<IModalComponentProps> = props => {
     const { title, describe, isVisible, onClose, buttonText, ...modalProps } = props;

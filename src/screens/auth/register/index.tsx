@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, KeyboardAvoidingView, Platform, Keyboard, Pressable, Alert } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, Keyboard, Pressable } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { StackAuthRoutesParams } from '@src/routes/unauthenticated/index.d';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -10,74 +11,44 @@ import { COLORS } from '@src/themes/colors';
 
 import Logo from '@src/assets/images/identidadeVisual.png';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Button from '@src/components/buttonComponent';
-import InputComponent from '@src/components/inputComponent';
-import ModalComponent from '@src/components/modal';
+import Button from '@src/components/Button';
+import InputComponent from '@src/components/TextInput';
+import ModalComponent from '@src/components/Modal';
 import AuthContext from '@src/contexts/auth';
-import { validateEmail } from '@src/utils/validations';
+
+type FormValues = {
+    username:string;
+    email:string;
+    password:string;
+}
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorUsername, setErrorUsername] = useState('');
-    const [errorEmail, setErrorEmail] = useState('');
-    const [errorPassword, setErrorPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [inProgress, setInProgress] = useState(false);
 
+    const { control, handleSubmit, formState: { errors } } = useForm<FormValues>();
     const { register, setUser } = useContext(AuthContext);
 
     const navigation = useNavigation<NativeStackNavigationProp<StackAuthRoutesParams>>();
 
-    const goToLogin = () => navigation.navigate('SignIn');
-
-    const handleRegister = async () => {
-        if(!fieldsValidate()){
-            return;
-        }
+    const handleRegister = async ({username, email, password }:FormValues) => {
 
         setInProgress(true);
         const data = await register({ username, email, password });
         setInProgress(false);
 
-        data.status === 201 && successResponse();
+        data.status === 201 && successResponse(username, email, password);
     }
 
-    const fieldsValidate = () => {
-        if(!username){
-            setErrorUsername('Preencha o campo');
-        }else{
-            setErrorUsername('');
-        }
-        if(!email){
-            setErrorEmail('Preencha o campo');
-        }else{
-            setErrorEmail('');
-        }
-        if(!password){
-            setErrorPassword('Preencha o campo');
-        }else{
-            setErrorPassword('');
-        }
-
-        if(!username || !email || !password) {
-            return false;
-        }
-
-        if(!validateEmail(email)){
-            setErrorEmail('E-mail é inválido');
-            return false;
-        }
-
-        setErrorUsername('');
-        setErrorEmail('');
-        setErrorPassword('');
-        return true;
-    }
-
-    const successResponse = () => { 
+    const successResponse = (username:string, email:string, password:string) => { 
         setIsVisible(true);
+
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
     }   
 
 
@@ -105,54 +76,93 @@ const Register: React.FC = () => {
         setIsVisible(false);
         setUser({ 
             username:username, 
-            email:email, 
+            email:email,
+            password:password 
         });
     }
 
+    const goToLogin = () => navigation.navigate('SignIn');
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={-50}>
+            <KeyboardAvoidingView 
+                behavior={Platform.OS === "ios" ? "padding" : "height"}   
+                keyboardVerticalOffset={-50}
+            >
                 <Pressable onPress={Keyboard.dismiss}>
                     <Image
                         source={Logo}
                         accessibilityLabel='identidade Visual'
                         style={styles.logo}
                     />
-                    <InputComponent
-                        value={username}
-                        onChangeText={(text) => setUsername(text)}
-                        placeholder="Informe seu nome"
-                        autoCapitalize="none"
-                        errorMessage={errorUsername}
-                        leftContent={<Icon name="account" size={18} color={COLORS.dark}
-                        />}
+                    <Controller 
+                        control={control}
+                        name="username"
+                        rules={{ required: true }}
+                        render={ ({ field: {onChange, onBlur, value } }) => (
+                            <InputComponent
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                placeholder="Informe seu nome"
+                                autoCapitalize="none"
+                                leftContent={ <Icon name="account" size={18} color={COLORS.dark}/> }
+                                errorMessage={
+                                    errors.username?.type === 'required' 
+                                    ? "Preencha o campo" 
+                                    : ''
+                                }
+                            />
+                        )}
                     />
-                    <InputComponent
-                        value={email}
-                        onChangeText={(text) => setEmail(text)}
-                        placeholder="Informe seu melhor email"
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        errorMessage={errorEmail}
-                        leftContent={<Icon name="email" size={18} color={COLORS.dark}
-                        />}
+                    <Controller
+                        control={control}
+                        name="email"
+                        rules={{ required: true, pattern: /\S+@\S+\.\S+/ }}
+                        render={ ({ field: {onChange, onBlur, value } }) => (
+                            <InputComponent
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                placeholder="Informe seu melhor email"
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                leftContent={<Icon name="email" size={18} color={COLORS.dark} />}
+                                errorMessage={
+                                    errors.email?.type === 'required'
+                                    ? "Preencha o campo"
+                                    : errors.email?.type === 'pattern'
+                                    ? "E-mail inválido"
+                                    :  ''
+                                }
+                            />
+                        )}
                     />
-                    <InputComponent
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                        placeholder="Informe sua senha"
-                        secureTextEntry={!isVisible}
-                        errorMessage={errorPassword}
-                        leftContent={<Icon name="lock" size={18} color={COLORS.dark}
-                        />}
-                        rightContent={renderIconEyes}
-                        showPassword={showPassword}
+                    <Controller
+                        control={control}
+                        name="password"
+                        rules={{ required: true }}
+                        render={ ({ field: {onChange, onBlur, value } }) => (
+                            <InputComponent
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                placeholder="Informe sua senha"
+                                secureTextEntry={!isVisible}
+                                showPassword={showPassword}
+                                leftContent={<Icon name="lock" size={18} color={COLORS.dark}/>}
+                                rightContent={renderIconEyes}
+                                errorMessage={
+                                    errors.password?.type === 'required' 
+                                    ? "Preencha o campo"
+                                    : ''
+                                }
+                            />
+                        )}
                     />
-
                     <Button
                         title="Cadastrar"
-                        onPress={handleRegister}
+                        onPress={handleSubmit(handleRegister)}
                         inProgress={inProgress}
                     />
                     <Button

@@ -3,8 +3,7 @@ import { View, Text } from 'react-native';
 
 import { styles } from './styles';
 
-import Button from '@src/components/buttonComponent';
-import ModalComponent from '@src/components/modal';
+import Button from '@src/components/Button';
 import AuthContext from '@src/contexts/auth';
 
 
