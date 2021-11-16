@@ -8,11 +8,11 @@ import Button from '@src/components/Button';
 import AuthContext from '@src/contexts/auth';
 import TextInput from '@src/components/TextInput';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Card from '@src/components/Card';
 import ListCardComponent from '@src/components/ListCard';
 
 import OnixPlus from '@src/assets/images/onix-plus.png';
 import Camaro from '@src/assets/images/camaro.png';
+import BottomTabNavigation from '@src/routes/customized/customTabs';
 
 const DATA = [
     {
@@ -48,7 +48,8 @@ const Home:React.FC = () =>{
                 style={{ width:'100%', marginTop:20 }}
             />
             <ListCardComponent data={DATA}/>
-            <Button title="Sair" onPress={signOut}/>
+            {/* <Button title="Sair" onPress={signOut}/> */}
+           
         </View>
         </>
     );

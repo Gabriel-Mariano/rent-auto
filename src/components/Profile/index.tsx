@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'flex-start',
         alignItems:'center',
+
     },
     wrapperProfile:{
         width:60,

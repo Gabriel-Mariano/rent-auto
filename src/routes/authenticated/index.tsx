@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Home from '@src/screens/authenticated/home/home';
+import Home from '@src/screens/authenticated/home';
+import Settings from '@src/screens/authenticated/settings';
+import DrawerNavigation from '../customized/customDrawer';
 
 const Stack = createNativeStackNavigator();
 
 const AppRoutes = () => {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
+        <Stack.Navigator screenOptions={{ headerShown:false }}>
+            <Stack.Screen name="Initial" component={DrawerNavigation} />
         </Stack.Navigator>
     );
 }

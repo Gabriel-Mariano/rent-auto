@@ -1,4 +1,4 @@
-export type StackAppRoutesParams = {
+export type TabRoutesParams = {
     Home: undefined;
     Settings:undefined;
 }
