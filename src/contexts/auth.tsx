@@ -14,7 +14,7 @@ import {
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 export const AuthProvider: React.FC = ({children}) => {
-    const [isLoading,setIsLoading] = useState(false);
+    const [isLoading,setIsLoading] = useState(true);
     const [user, setUser] = useState<IUserType | null>(null);
 
     useEffect(()=>{
@@ -23,9 +23,10 @@ export const AuthProvider: React.FC = ({children}) => {
             const storagedToken = await AsyncStorage.getItem('@rentAuto:token');
             
             if( storagedUser && storagedToken){
-                setUser(JSON.parse(storagedUser));   
+                setUser(JSON.parse(storagedUser)); 
+                setIsLoading(false);  
             }
-            setIsLoading(false);
+            
         }
 
         loadStorageData();

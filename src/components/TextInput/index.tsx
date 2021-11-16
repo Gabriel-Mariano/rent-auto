@@ -2,9 +2,11 @@ import React from 'react';
 import { View, TextInput, Text, StyleSheet, Pressable } from 'react-native';
 import { IInputComponentProps } from './index.d';
 import { COLORS } from '@src/themes/colors';
+import { FONTS } from '@src/themes/fonts';
 
 const InputComponent:React.FC<IInputComponentProps> = props =>{
     const {
+        label,
         leftContent,
         rightContent,
         showPassword,
@@ -27,7 +29,12 @@ const InputComponent:React.FC<IInputComponentProps> = props =>{
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[
+            inputProps.style 
+            ? inputProps.style 
+            : styles.container 
+        ]}>
+            { label && <Text style={styles.label}>{label}</Text> }
             <View style={styles.wrapperInput}>
                 {renderLeftContent()}         
                 <TextInput
@@ -74,6 +81,10 @@ const styles = StyleSheet.create({
         backgroundColor:COLORS.white,
         
         marginVertical:10,
+    },
+    label:{
+        fontFamily:FONTS.regular,
+        marginLeft:10,
     },
     leftContent:{
         width:'15%',

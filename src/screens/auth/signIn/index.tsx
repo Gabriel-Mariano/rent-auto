@@ -21,7 +21,7 @@ import { COLORS } from '@src/themes/colors';
 import Logo from '@src/assets/images/identidadeVisual.png';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '@src/components/Button';
-import InputComponent from '@src/components/TextInput';
+import TextInput from '@src/components/TextInput';
 import AuthContext from '@src/contexts/auth';
 
 type FormValues = {
@@ -78,7 +78,7 @@ const SignIn: React.FC = () => {
                             name="email"
                             rules={{ required:true, pattern:/\S+@\S+\.\S+/ }}
                             render={( { field: {onChange, onBlur, value} }) => (
-                                <InputComponent
+                                <TextInput
                                     onChangeText={onChange}
                                     onBlur={onBlur}
                                     value={value}
@@ -101,7 +101,7 @@ const SignIn: React.FC = () => {
                             name="password"
                             rules={{ required: true }}
                             render={ ({ field: {onChange, onBlur, value } }) => (
-                                <InputComponent
+                                <TextInput
                                     onChangeText={onChange}
                                     onBlur={onBlur}
                                     value={value}

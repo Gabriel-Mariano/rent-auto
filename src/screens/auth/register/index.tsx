@@ -11,9 +11,9 @@ import { COLORS } from '@src/themes/colors';
 
 import Logo from '@src/assets/images/identidadeVisual.png';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import TextInput from '@src/components/TextInput';
 import Button from '@src/components/Button';
-import InputComponent from '@src/components/TextInput';
-import ModalComponent from '@src/components/Modal';
+import Modal from '@src/components/Modal';
 import AuthContext from '@src/contexts/auth';
 
 type FormValues = {
@@ -63,7 +63,7 @@ const Register: React.FC = () => {
     }
 
     const renderModal = () => (
-        <ModalComponent
+        <Modal
             title="Conta criada com sucesso"
             describe="Sua conta foi criada com sucesso 🎉. Agora você será redirecionado para Home."
             isVisible={isVisible}
@@ -100,7 +100,7 @@ const Register: React.FC = () => {
                         name="username"
                         rules={{ required: true }}
                         render={ ({ field: {onChange, onBlur, value } }) => (
-                            <InputComponent
+                            <TextInput
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                                 value={value}
@@ -120,7 +120,7 @@ const Register: React.FC = () => {
                         name="email"
                         rules={{ required: true, pattern: /\S+@\S+\.\S+/ }}
                         render={ ({ field: {onChange, onBlur, value } }) => (
-                            <InputComponent
+                            <TextInput
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                                 value={value}
@@ -143,7 +143,7 @@ const Register: React.FC = () => {
                         name="password"
                         rules={{ required: true }}
                         render={ ({ field: {onChange, onBlur, value } }) => (
-                            <InputComponent
+                            <TextInput
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                                 value={value}
