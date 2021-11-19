@@ -56,7 +56,9 @@
       "node"
     ]
   },
-  "rnpm":{
-    "assets":[".src/assets/fonts/Nunito"]
+  "rnpm": {
+    "assets": [
+      ".src/assets/fonts/Nunito"
+    ]
   }
 }

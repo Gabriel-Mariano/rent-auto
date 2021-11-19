@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 
 import { styles } from './styles';
 
@@ -13,6 +13,7 @@ import ListCardComponent from '@src/components/ListCard';
 import OnixPlus from '@src/assets/images/onix-plus.png';
 import Camaro from '@src/assets/images/camaro.png';
 import BottomTabNavigation from '@src/routes/customized/customTabs';
+import BottomNavigator from '@src/components/BottomNavigator';
 
 const DATA = [
     {
@@ -35,23 +36,21 @@ const DATA = [
 
 
 const Home:React.FC = () =>{
-    const { signOut } = useContext(AuthContext);
 
     return (
-        <>
-        <View style={styles.container}>
-            <Profile />
-            <TextInput 
-                label="Pesquise pelo carro"
-                placeholder="Exemplo:Ford, Onix .. "
-                rightContent={()=> <Icon name='search' size={18} /> }
-                style={{ width:'100%', marginTop:20 }}
-            />
-            <ListCardComponent data={DATA}/>
-            {/* <Button title="Sair" onPress={signOut}/> */}
-           
-        </View>
-        </>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.wrapperContent}>
+                <Profile />
+                <TextInput 
+                    label="Pesquise pelo carro"
+                    placeholder="Exemplo:Ford, Onix .. "
+                    rightContent={()=> <Icon name='search' size={18} /> }
+                    style={{ width:'100%', marginTop:20 }}
+                />
+                <ListCardComponent data={DATA}/>
+            </View>
+            <BottomNavigator focused="Home"/>
+        </SafeAreaView>
     );
 }
 

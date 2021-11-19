@@ -39,7 +39,6 @@ const SignIn: React.FC = () => {
     const navigation = useNavigation<NativeStackNavigationProp<StackAuthRoutesParams>>();
 
     const handleSignIn = async ({email, password }:FormValues) => {
-
         setInProgress(true);
         await signIn({ email, password });
         setInProgress(false);
