@@ -25,70 +25,21 @@ const ListCardComponent:React.FC<DataProps> = props => {
     return (
         <FlatList
             data={data}
+            showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => {
                 return (
-                    <>
                     <Card 
                         name={item.name}
                         brand={item.brand}
                         price={item.price}
                         image={item.image}
-                        
+                        available={item.available}
                     />  
-                    </>
                 );
             }}
             keyExtractor={item => item.id}
-
-        ></FlatList>
+        />
     );
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        backgroundColor:COLORS.white,
-        borderRadius:6,
-        paddingVertical:10,
-        paddingHorizontal:10,
-        marginVertical:10,
-
-        elevation:1,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-  
-    },
-    brand:{
-        fontFamily:FONTS.regular,
-        fontSize:12,
-    },
-    headerContent:{
-        marginBottom:2
-        
-    },
-    title:{
-        fontFamily:FONTS.bold,
-        fontSize:18
-    },
-    label:{
-        fontFamily:FONTS.regular,
-        fontSize:12,
-        color:COLORS.success
-    },
-    value:{
-        fontFamily:FONTS.bold,
-        fontSize:16,
-        color:COLORS.primary
-    },
-    image:{
-        width:200,
-        height:90,
-        resizeMode:'contain'
-    }
-});
 
 export default ListCardComponent;

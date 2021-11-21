@@ -10,6 +10,6 @@ export const styles = StyleSheet.create({
         backgroundColor:COLORS.background,
         paddingHorizontal:20,
         paddingTop:20,
+        paddingBottom:40
     },
-
 });

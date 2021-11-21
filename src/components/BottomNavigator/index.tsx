@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     container: {
         position: 'absolute',
         width: '100%',
-        height: 90,
+        height: 70,
         bottom: 0,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     },
     item: {
         width: '50%',
-        height: 90,
+        height: 70,
         justifyContent: 'center',
         alignItems: 'center',
     }
