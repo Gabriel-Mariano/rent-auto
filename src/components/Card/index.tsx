@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, Image, ImageProps, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, ImageProps, StyleSheet, ImageSourcePropType } from 'react-native';
 import { Grayscale } from 'react-native-color-matrix-image-filters';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '@src/themes/colors';
 import { FONTS } from '@src/themes/fonts';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface CardProps {
     id?:string;
@@ -11,12 +12,22 @@ interface CardProps {
     brand?:string;
     price?:string;
     year?:number;
-    image:ImageProps;
+    image:string;
     available?:boolean;
 }
 
 const CardComponent:React.FC<CardProps> = props => {
     const { name, brand, price, year, image, available } = props;
+    
+    const renderPaths = () => {
+        const path = {
+            onixPlus:{
+                uri:require('@src/assets/images/onix-plus.png')
+            }
+        }
+
+        return path[image].uri;
+    }
 
     const renderIcons = () => {
         return available 
@@ -40,6 +51,7 @@ const CardComponent:React.FC<CardProps> = props => {
           </View>
     }
 
+    
     return (
         <View style={styles.container}>
             <View>
@@ -64,17 +76,17 @@ const CardComponent:React.FC<CardProps> = props => {
                         available
                         ?  <Image 
                             style={styles.image}
-                            source={image} 
+                            source={renderPaths()} 
                             accessibilityLabel={name} 
                             />
                     : <Grayscale amount={1}>
                         <Image 
                             style={styles.image}
-                            source={image} 
+                            source={renderPaths()}    
                             accessibilityLabel={name}
                         />
                     </Grayscale>
-                    }
+                    } 
                 </View>
             </View>
         </View>
