@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { PressableArrow, PressableTabBars } from '../Pressable';
 import { FONTS } from '@src/themes/fonts';
 import { COLORS } from '@src/themes/colors';
 import Logo from '@src/assets/images/identidadeVisual03.png';
 
-const Header:React.FC = () => {
-    const location = useRoute()
+type UseRoutePros = {
+    key:string;
+    name:string;
+    params?:{
+        params?:{
+            name?:string;
+            brand?:string;
+        }
+        screen?:string;
+        path?:string;
+    }
+}
+
+const Header = (route: UseRoutePros) => {
+    const [location, setLocation] = useState<any>(route.params);
+
+   useEffect(()=>{
+       if(route.params?.screen){
+        setLocation(route.params.screen)
+       }
+       else{
+           setLocation(undefined)
+       }
     
-    const renderLeftContent = () => {
-        return location.name === 'Home' || location.name === 'Settings'
-            ? <PressableTabBars/>
-            : <PressableArrow/>
-    };
+   },[route])
+
+    const renderLeftContent = useCallback(() => {
+        return location === undefined
+        ? <PressableTabBars/>
+        : <PressableArrow/> 
+    },[location])
+   
 
     return (
         <View style={styles.container}>

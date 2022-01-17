@@ -5,6 +5,8 @@ import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 import { Pressable } from 'react-native';
 
 import  Icon  from 'react-native-vector-icons/Ionicons';
+import { StackProps } from '@src/routes/customized/customStack/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const PressableArrow = () => {
     const navigation = useNavigation();

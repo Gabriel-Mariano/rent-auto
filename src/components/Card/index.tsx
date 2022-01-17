@@ -8,6 +8,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { StackProps } from '@src/routes/customized/customStack/types';
+import Details from '@src/screens/authenticated/details';
 
 
 interface CardProps {
@@ -16,21 +18,21 @@ interface CardProps {
     brand?: string;
     price?: string;
     year?: number;
-    image: string;
+    photo: string;
     available?: boolean;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-    const { name, brand, price, year, image, available } = props;
+    const { name, brand, price, year, photo, available } = props;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
-
+    
     const renderPaths = () => {
         const path = {
             onixPlus: {
                 uri: require('@src/assets/images/onix-plus.png')
             }
         }
-        return path[image].uri;
+        return path[photo].uri;
     }
 
     const renderIcons = () => {
@@ -56,9 +58,13 @@ const CardComponent: React.FC<CardProps> = props => {
     }
 
     const goToDetails = () => {
-        navigation.navigate('Details',{
-            name:name,
-            brand:brand,
+        navigation.navigate('Home', {
+            screen:'Details',
+            params: {
+                name,
+                brand,
+                photo
+            }
         });
     }
 

@@ -19,6 +19,8 @@ import { COLORS } from '@src/themes/colors';
 import Settings from '@src/screens/authenticated/settings';
 import Details from '@src/screens/authenticated/details';
 import Home from '@src/screens/authenticated/home';
+import StackAutomobilesRoutes from '../customStack';
+import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
@@ -49,13 +51,13 @@ const DrawerNavigation = () => (
         screenOptions={{
             headerTintColor: COLORS.dark,
             drawerActiveTintColor: COLORS.primary,
-            header: () => <Header />
+            header: ({route}) => <Header {...route}/> 
         }}
         drawerContent={(props) => <DrawerContent {...props} />}
     >
         <Drawer.Screen
             name="Home"
-            component={Home}
+            component={StackAutomobilesRoutes}
             options={{
                 drawerIcon: ({ focused }) => <Icon name="home" size={18} color={focused ? COLORS.primary : COLORS.dark} />
             }} 
@@ -67,14 +69,14 @@ const DrawerNavigation = () => (
                 drawerIcon: ({ focused }) => <Icon name="settings" size={18} color={focused ? COLORS.primary : COLORS.dark} />
             }} 
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
             name="Details"
             component={Details}
             options={{
                 drawerItemStyle:{ height:0 },
                 drawerIcon: ({ focused }) => <Icon name="settings" size={18} color={focused ? COLORS.primary : COLORS.dark} />
             }} 
-        />
+        /> */}
     </Drawer.Navigator>
 )
 
