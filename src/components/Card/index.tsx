@@ -5,9 +5,10 @@ import { COLORS } from '@src/themes/colors';
 import { FONTS } from '@src/themes/fonts';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackProps } from '@src/routes/customized/customStack/types';
+import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 interface CardProps {
     id?: string;
@@ -21,7 +22,7 @@ interface CardProps {
 
 const CardComponent: React.FC<CardProps> = props => {
     const { name, brand, price, year, image, available } = props;
-    const navigation = useNavigation<NativeStackNavigationProp<StackProps>>();
+    const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
 
     const renderPaths = () => {
         const path = {
@@ -55,7 +56,10 @@ const CardComponent: React.FC<CardProps> = props => {
     }
 
     const goToDetails = () => {
-        navigation.navigate('Details');
+        navigation.navigate('Details',{
+            name:name,
+            brand:brand,
+        });
     }
 
     return (

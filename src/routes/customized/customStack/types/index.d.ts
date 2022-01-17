@@ -1,6 +1,9 @@
 type StackProps = {
     Home:undefined;
-    Details:undefined;
+    Details:{
+        name?:string;
+        brand?:string;
+     };
 }
 
 export { StackProps };

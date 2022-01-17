@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { PressableArrow, PressableTabBars } from '../Pressable';
 import { FONTS } from '@src/themes/fonts';
 import { COLORS } from '@src/themes/colors';
+import Logo from '@src/assets/images/identidadeVisual03.png';
 
 const Header:React.FC = () => {
     const location = useRoute()
@@ -22,9 +23,12 @@ const Header:React.FC = () => {
                 </Text>
             </View>
             <View>
-                <Text style={styles.title}>
-                    {location.name}
-                </Text>
+                <Image 
+                    source={Logo}
+                    accessibilityLabel="Identidade Visual"
+                    style={styles.logo}
+                    resizeMode='contain'
+                />
             </View>
             <View/>
         </View>
@@ -48,6 +52,10 @@ const styles = StyleSheet.create({
     },
     title:{
         fontFamily:FONTS.bold
+    },
+    logo:{
+        width:90,
+        height:30
     }
 
 })
