@@ -1,9 +1,10 @@
-import { NavigationProp, NavigatorScreenParams } from "@react-navigation/native";
+import { NavigatorScreenParams } from "@react-navigation/native";
 import { StackProps } from "../../customStack/types";
 
 type DrawerProps =  {
-    Home:NavigatorScreenParams<StackProps>; 
+    Home:NavigatorScreenParams<StackProps>;
     Settings:undefined;
+
     /* Details:{
        name?:string;
        brand?:string;

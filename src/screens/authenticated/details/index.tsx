@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { IRouteProps } from './index.d';
+import { useNavigation } from '@react-navigation/native';
 
 import BottomNavigator from '@src/components/BottomNavigator';
+import ButtonComponent from '@src/components/Button';
+import InfoItems from '@src/components/InfoItems';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Details = (props: IRouteProps) => {
-    const { name, brand, photo } = props.route.params;
+    const { name, brand, photo, km, fuel, exchange } = props.route.params;
+    const navigation = useNavigation();
 
     const renderPaths = () => {
         const path = {
@@ -18,7 +23,10 @@ const Details = (props: IRouteProps) => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.link} onPress={() => navigation.goBack()} >
+                Voltar
+            </Text>
             <View style={styles.contentImage}>
                 <Image
                     source={renderPaths()}
@@ -36,11 +44,18 @@ const Details = (props: IRouteProps) => {
                     <Text style={styles.value}>R$XX,XX</Text>
                 </View>
             </View>
-            <View>
-
+            <InfoItems
+                {...{
+                    km,
+                    exchange,
+                    fuel
+                }}
+            />
+            <View style={styles.footerContent}>
+                <ButtonComponent title='Confirmar' />
             </View>
             <BottomNavigator focused="Home" />
-        </View>
+        </SafeAreaView>
     );
 }
 

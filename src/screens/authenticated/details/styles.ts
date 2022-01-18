@@ -6,6 +6,14 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    link:{
+        fontFamily:FONTS.italic,
+        color:COLORS.primary,
+        padding:20,
+        marginLeft:10,
+        textDecorationLine:'underline',
+        zIndex:999,
+    },
     contentImage: {
         width: '100%',
         height: 200,
@@ -21,7 +29,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
     },
     wrapperContent: {
         alignItems: 'center'
@@ -44,4 +52,11 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: COLORS.danger
     },
+    footerContent:{
+        width:'100%',
+        position:'absolute',
+        bottom:90,
+        justifyContent:'center',
+        paddingHorizontal:50
+    }
 });

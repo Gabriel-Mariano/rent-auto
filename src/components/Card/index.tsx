@@ -20,10 +20,23 @@ interface CardProps {
     year?: number;
     photo: string;
     available?: boolean;
+    fuel?: string;
+    exchange?: 'Manual' | 'Auto';
+    km?: number;
 }
 
 const CardComponent: React.FC<CardProps> = props => {
-    const { name, brand, price, year, photo, available } = props;
+    const { 
+        name, 
+        brand, 
+        price, 
+        year, 
+        photo, 
+        available,
+        km,
+        exchange,
+        fuel
+     } = props;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
     
     const renderPaths = () => {
@@ -63,7 +76,10 @@ const CardComponent: React.FC<CardProps> = props => {
             params: {
                 name,
                 brand,
-                photo
+                photo,
+                km,
+                fuel,
+                exchange
             }
         });
     }

@@ -10,6 +10,9 @@ type CardProps = {
     price?:string,
     year?:string,
     photo?:string;
+    fuel?: string;
+    exchange?: 'Manual' | 'Auto';
+    km?: number;
 }
 
 type DataProps = {
@@ -31,6 +34,9 @@ const ListCardComponent:React.FC<DataProps> = props => {
                         price={item.price}
                         photo={item.photo}
                         available={item.available}
+                        fuel={item.fuel}
+                        km={item.km}
+                        exchange={item.exchange}
                     />  
                 );
             }}
