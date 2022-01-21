@@ -8,6 +8,7 @@ type StackProps = {
         exchange?:'Manual' | 'Auto';
         fuel?:string;
      };
+     Calendar:undefined;
      Settings:undefined; 
 }
 

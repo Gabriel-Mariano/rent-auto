@@ -1,17 +1,22 @@
 import React from 'react';
-import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 import { IRouteProps } from './index.d';
 import { useNavigation } from '@react-navigation/native';
+import { Calendar } from 'react-native-calendars';
 
 import BottomNavigator from '@src/components/BottomNavigator';
 import ButtonComponent from '@src/components/Button';
 import InfoItems from '@src/components/InfoItems';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackProps } from '@src/routes/customized/customStack/types';
+import { DrawerProps } from '@src/routes/customized/customDrawer/types';
+
 
 const Details = (props: IRouteProps) => {
     const { name, brand, photo, km, fuel, exchange } = props.route.params;
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
 
     const renderPaths = () => {
         const path = {
@@ -20,6 +25,12 @@ const Details = (props: IRouteProps) => {
             }
         }
         return path[photo!].uri;
+    }
+
+    const goToCalendarScreen = () => {
+       navigation.navigate('Home', {
+           screen:'Calendar'
+       });
     }
 
     return (
@@ -51,8 +62,11 @@ const Details = (props: IRouteProps) => {
                     fuel
                 }}
             />
+            <View>
+
+            </View>
             <View style={styles.footerContent}>
-                <ButtonComponent title='Confirmar' />
+                <ButtonComponent title='Próximo' onPress={goToCalendarScreen} />
             </View>
             <BottomNavigator focused="Home" />
         </SafeAreaView>
