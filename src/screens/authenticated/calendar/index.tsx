@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
 import { styles } from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,15 +28,18 @@ LocaleConfig.locales['fr'] = {
     dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
     today: "Aujourd'hui"
   };
-  LocaleConfig.defaultLocale = 'fr';
-const CalendarScreen = () => {
+LocaleConfig.defaultLocale = 'fr';
+
+const CalendarScreen  = (props:RouteParams) => {
     const [markedDates, setMarkedDates] = useState({});
     const [isStartDate, setIsStartDate] = useState(false);
     const [isEndDate, setIsEndDate] = useState(false);
     const [startDate, setStartDate] = useState('');
     const [daysRange, setDaysRange] = useState<number>();
-    const [valueFixed, setValueFixed] = useState<number>(580.00);
+
     const [total, setTotal] = useState<number>();
+
+    const { price } = props.route.params;
 
     const selectDate = (dateString:string) => {
         return isStartDate === false
@@ -86,7 +90,7 @@ const CalendarScreen = () => {
                 }
         }
 
-        const totally = range * valueFixed;
+        const totally = range * price!;
         
         setMarkedDates(marked);
         setIsStartDate(false)
@@ -117,12 +121,12 @@ const CalendarScreen = () => {
                         Total
                     </Text>
                     <Text style={styles.describe}>
-                        R${valueFixed} x {daysRange && daysRange+1} diárias
+                        R${price} x {daysRange && daysRange+1} diárias
                     </Text>
                 </View>
                 <View>
                     <Text style={styles.total}>
-                        R$ ${total}
+                        R$ {total}
                     </Text>
                 </View>
             </View>

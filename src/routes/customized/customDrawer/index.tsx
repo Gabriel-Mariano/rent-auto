@@ -10,17 +10,14 @@ import {
 import { DrawerProps } from './types/index.d';
 import DrawerHeader from './components/Header';
 import DrawerBase from './components/Footer';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Header from '@src/components/Header';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { styles } from './styles/styles';
 import { COLORS } from '@src/themes/colors';
 
-import Settings from '@src/screens/authenticated/settings';
-import Details from '@src/screens/authenticated/details';
-import Home from '@src/screens/authenticated/home';
 import StackAutomobilesRoutes from '../customStack';
-import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
+import Settings from '@src/screens/authenticated/settings';
 
 const Drawer = createDrawerNavigator<DrawerProps>();
 
@@ -47,7 +44,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = (props) => {
 
 const DrawerNavigation = () => (
     <Drawer.Navigator
-        initialRouteName="Home"
+        initialRouteName="Origin"
         screenOptions={{
             headerTintColor: COLORS.dark,
             drawerActiveTintColor: COLORS.primary,
@@ -56,7 +53,7 @@ const DrawerNavigation = () => (
         drawerContent={(props) => <DrawerContent {...props} />}
     >
         <Drawer.Screen
-            name="Home"
+            name="Origin"
             component={StackAutomobilesRoutes}
             options={{
                 drawerIcon: ({ focused }) => <Icon name="home" size={18} color={focused ? COLORS.primary : COLORS.dark} />

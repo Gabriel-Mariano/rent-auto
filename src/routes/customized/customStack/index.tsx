@@ -11,7 +11,7 @@ const StackAutomobilesRoutes = () => (
     <Navigator 
          screenOptions={{ headerShown:false }}
     >
-        <Screen name="Origin" component={Home} />
+        <Screen name="Home" component={Home} />
         <Screen name="Details" component={Details} />
         <Screen name="Calendar" component={CalendarScreen} />
     </Navigator>

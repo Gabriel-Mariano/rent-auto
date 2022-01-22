@@ -1,72 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, View, ActivityIndicator, Alert, Text } from 'react-native';
-
 import { styles } from './styles';
 import { listAutomobiles } from '@src/services/automobiles';
-import { IAutoProps } from './index.d';
+import { IAutoProps } from '@src/@types/autoType.d';
 
 import Profile from '@src/components/Profile';
 import TextInput from '@src/components/TextInput';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ListCardComponent from '@src/components/ListCard';
-
-import OnixPlus from '@src/assets/images/onix-plus.png';
-import Camaro from '@src/assets/images/camaro.png';
-import Bronco from '@src/assets/images/bronco-sport.png';
-import BmwX2 from '@src/assets/images/bmwx2.png';
 import BottomNavigator from '@src/components/BottomNavigator';
 
-
-interface IDataProps  {
-    id:string;
-    name:string;
-    brand:string,
-    price:string,
-    year:number,
-    image:any,
-    available:boolean;
-}
-
-
 const Home:React.FC = () => {
-    // const [data, setData] = useState<IDataProps[]>([
-    //     {
-    //         id:'1',
-    //         name:'Onix Plus',
-    //         brand:'Chevrolet',
-    //         price:'290,00',
-    //         year:2021,
-    //         // image:OnixPlus,
-    //         available:true,
-    //     },
-    //     {
-    //         id:'2',
-    //         name:'Camaro',
-    //         brand:'Chevrolet',
-    //         price:'395,00',
-    //         year:2020,
-    //         image:Camaro,
-    //         available:true,
-    //     },
-    //     {
-    //         id:'3',
-    //         name:'Bronco Sport',
-    //         brand:'Ford',
-    //         price:'380,00',
-    //         year:2021,
-    //         image:Bronco,
-    //         available:false,
-    //     },
-    //     {
-    //         id:'4',
-    //         name:'BMW X2',
-    //         brand:'Bmw',
-    //         price:'370,00',
-    //         year:2020,
-    //         image:BmwX2,
-    //         available:true,
-    //     },
-    // ]);
     const [automobiles, setAutomobiles] = useState<IAutoProps[]>([]);
     const [filterData, setFilterData] = useState<IAutoProps[]>([]);
     const [search, setSearch] = useState('');
@@ -96,10 +40,10 @@ const Home:React.FC = () => {
     const carSearch = useCallback((text:string)=> {
         if(text){
             const filterCars = automobiles.filter((cars)=>{
-                const car = cars.name.toUpperCase();
+                const car = cars.name?.toUpperCase();
                 const textUpperCase = text.toUpperCase();
     
-                return car.indexOf(textUpperCase) > -1;
+                return car!.indexOf(textUpperCase) > -1;
             });
 
             setFilterData(filterCars);

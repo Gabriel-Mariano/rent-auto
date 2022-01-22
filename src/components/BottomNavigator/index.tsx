@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { IBottomNavigationPros } from './index.d';
 import { StackAppRoutesParams } from '@src/routes/authenticated/index.d';

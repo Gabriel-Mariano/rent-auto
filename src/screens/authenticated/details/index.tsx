@@ -2,42 +2,49 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
-import { IRouteProps } from './index.d';
-import { useNavigation } from '@react-navigation/native';
-import { Calendar } from 'react-native-calendars';
 
-import BottomNavigator from '@src/components/BottomNavigator';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerProps } from '@src/routes/customized/customDrawer/types';
+import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
+
 import ButtonComponent from '@src/components/Button';
 import InfoItems from '@src/components/InfoItems';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { StackProps } from '@src/routes/customized/customStack/types';
-import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 
-
-const Details = (props: IRouteProps) => {
-    const { name, brand, photo, km, fuel, exchange } = props.route.params;
+const Details = (props: RouteParams) => {
+    const { id, name, brand, price, photo, km, fuel, exchange } = props.route.params;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
 
     const renderPaths = () => {
         const path = {
             onixPlus: {
                 uri: require('@src/assets/images/onix-plus.png')
+            },
+            camaro: {
+                uri: require('@src/assets/images/camaro.png')
             }
         }
         return path[photo!].uri;
     }
 
     const goToCalendarScreen = () => {
-       navigation.navigate('Home', {
-           screen:'Calendar'
+       navigation.navigate('Origin', {
+           screen:'Calendar',
+           params: {
+            id,   
+            name,
+            brand,
+            price,
+            photo,
+            km,
+            fuel,
+            exchange
+        }
        });
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.link} onPress={() => navigation.goBack()} >
-                Voltar
-            </Text>
             <View style={styles.contentImage}>
                 <Image
                     source={renderPaths()}
@@ -68,7 +75,7 @@ const Details = (props: IRouteProps) => {
             <View style={styles.footerContent}>
                 <ButtonComponent title='Próximo' onPress={goToCalendarScreen} />
             </View>
-            <BottomNavigator focused="Home" />
+            {/* <BottomNavigator focused="Home" /> */}
         </SafeAreaView>
     );
 }

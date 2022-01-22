@@ -1,22 +1,11 @@
 import React from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { IBrandProps } from '@src/screens/authenticated/home/index.d';
+import { IAutoProps } from '@src/@types/autoType.d';
+
 import Card from '../Card';
 
-type CardProps = {
-    id:string;
-    name?:string;
-    brand?:IBrandProps,
-    price?:string,
-    year?:string,
-    photo?:string;
-    fuel?: string;
-    exchange?: 'Manual' | 'Auto';
-    km?: number;
-}
-
 type DataProps = {
-    data:CardProps[];
+    data:IAutoProps[];
 }
 
 const ListCardComponent:React.FC<DataProps> = props => {

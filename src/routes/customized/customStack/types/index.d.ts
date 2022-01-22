@@ -1,15 +1,16 @@
+import { IAutoProps } from '@src/@types/autoType';
+
 type StackProps = {
-    Home:undefined;
-     Details:{
-        name?:string;
-        brand?:string;
-        photo?:string;
-        km?:number;
-        exchange?:'Manual' | 'Auto';
-        fuel?:string;
-     };
-     Calendar:undefined;
-     Settings:undefined; 
+   Home:undefined;
+   Details:IAutoProps  | undefined;
+   Calendar:IAutoProps | undefined;
+   Settings:undefined; 
 }
 
-export { StackProps };
+type RouteParams = {
+   route: {
+      params: IAutoProps;
+   }
+}
+
+export { StackProps, RouteParams  };

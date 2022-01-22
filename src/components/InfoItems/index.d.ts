@@ -1,5 +1,5 @@
 interface IInfoProps {
-    km?:string;
+    km?:number;
     exchange?:string;
     fuel?:string;
 }

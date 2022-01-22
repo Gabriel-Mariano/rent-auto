@@ -6,33 +6,32 @@ import { FONTS } from '@src/themes/fonts';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrawerProps } from '@src/routes/customized/customDrawer/types';
+import { IAutoProps } from '@src/@types/autoType';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StackProps } from '@src/routes/customized/customStack/types';
-import Details from '@src/screens/authenticated/details';
 
+// interface CardProps {
+//     id?: string;
+//     name?: string;
+//     brand?: string;
+//     price?: number;
+//     year?: number;
+//     photo: string;
+//     available?: boolean;
+//     fuel?: string;
+//     exchange?: 'Manual' | 'Auto';
+//     km?: number;
+// }
 
-interface CardProps {
-    id?: string;
-    name?: string;
-    brand?: string;
-    price?: string;
-    year?: number;
-    photo: string;
-    available?: boolean;
-    fuel?: string;
-    exchange?: 'Manual' | 'Auto';
-    km?: number;
-}
-
-const CardComponent: React.FC<CardProps> = props => {
+const CardComponent: React.FC<IAutoProps> = props => {
     const { 
+        id,
         name, 
         brand, 
         price, 
         year, 
         photo, 
-        available,
+        available = true, // data fake
         km,
         exchange,
         fuel
@@ -43,9 +42,12 @@ const CardComponent: React.FC<CardProps> = props => {
         const path = {
             onixPlus: {
                 uri: require('@src/assets/images/onix-plus.png')
+            },
+            camaro: {
+                uri: require('@src/assets/images/camaro.png')
             }
         }
-        return path[photo].uri;
+        return path[photo!].uri;
     }
 
     const renderIcons = () => {
@@ -71,11 +73,13 @@ const CardComponent: React.FC<CardProps> = props => {
     }
 
     const goToDetails = () => {
-        navigation.navigate('Home', {
+        navigation.navigate('Origin', {
             screen:'Details',
             params: {
+                id,
                 name,
                 brand,
+                price,
                 photo,
                 km,
                 fuel,
