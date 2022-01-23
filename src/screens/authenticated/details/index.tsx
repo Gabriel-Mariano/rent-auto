@@ -31,15 +31,15 @@ const Details = (props: RouteParams) => {
        navigation.navigate('Origin', {
            screen:'Calendar',
            params: {
-            id,   
-            name,
-            brand,
-            price,
-            photo,
-            km,
-            fuel,
-            exchange
-        }
+                id,   
+                name,
+                brand,
+                price,
+                photo,
+                km,
+                fuel,
+                exchange
+            }
        });
     }
 
@@ -59,7 +59,7 @@ const Details = (props: RouteParams) => {
                 </View>
                 <View style={styles.wrapperContent}>
                     <Text style={styles.label}>Ao dia</Text>
-                    <Text style={styles.value}>R$XX,XX</Text>
+                    <Text style={styles.value}>R${price}</Text>
                 </View>
             </View>
             <InfoItems

@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 30,
     },
     wrapperContent: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     brand: {
         fontFamily: FONTS.regular,

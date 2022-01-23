@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -34,6 +34,13 @@ export const PressableArrowIcon = (props:any) => {
                 params:{...location.params?.params}
             });
         }
+        if(props.screen === 'Finalize') {
+            navigation.navigate('Origin', {
+                screen:'Calendar',
+                params:{...location.params?.params}
+            });
+        }
+
     }
 
     return (

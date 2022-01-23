@@ -56,6 +56,7 @@ const DrawerNavigation = () => (
             name="Origin"
             component={StackAutomobilesRoutes}
             options={{
+                drawerLabel:'Home',
                 drawerIcon: ({ focused }) => <Icon name="home" size={18} color={focused ? COLORS.primary : COLORS.dark} />
             }} 
         />

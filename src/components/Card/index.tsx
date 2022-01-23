@@ -10,19 +10,6 @@ import { IAutoProps } from '@src/@types/autoType';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// interface CardProps {
-//     id?: string;
-//     name?: string;
-//     brand?: string;
-//     price?: number;
-//     year?: number;
-//     photo: string;
-//     available?: boolean;
-//     fuel?: string;
-//     exchange?: 'Manual' | 'Auto';
-//     km?: number;
-// }
-
 const CardComponent: React.FC<IAutoProps> = props => {
     const { 
         id,

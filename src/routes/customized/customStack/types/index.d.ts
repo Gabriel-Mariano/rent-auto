@@ -4,6 +4,7 @@ type StackProps = {
    Home:undefined;
    Details:IAutoProps  | undefined;
    Calendar:IAutoProps | undefined;
+   Finalize:IAutoProps | undefined;
    Settings:undefined; 
 }
 

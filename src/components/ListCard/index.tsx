@@ -1,14 +1,10 @@
 import React from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { IAutoProps } from '@src/@types/autoType.d';
+import { IDataProps } from './index.d';
 
 import Card from '../Card';
 
-type DataProps = {
-    data:IAutoProps[];
-}
-
-const ListCardComponent:React.FC<DataProps> = props => {
+const ListCardComponent:React.FC<IDataProps> = props => {
     const { data } = props;
 
     return (

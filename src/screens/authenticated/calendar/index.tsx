@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 import { styles } from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -36,10 +39,11 @@ const CalendarScreen  = (props:RouteParams) => {
     const [isEndDate, setIsEndDate] = useState(false);
     const [startDate, setStartDate] = useState('');
     const [daysRange, setDaysRange] = useState<number>();
-
     const [total, setTotal] = useState<number>();
 
-    const { price } = props.route.params;
+    const { brand, price, exchange, fuel, id, km, name, photo } = props.route.params;
+    
+    const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
 
     const selectDate = (dateString:string) => {
         return isStartDate === false
@@ -101,6 +105,22 @@ const CalendarScreen  = (props:RouteParams) => {
     }
 
     const failedSelected = () => console.log('Select an upcomming date!');
+
+    const goToFinalize = () => {
+        navigation.navigate('Origin', {
+            screen:'Finalize',
+            params: {
+                id,
+                name,
+                photo,
+                price,
+                exchange,
+                fuel,
+                km,
+                brand,
+             }
+        });
+     }
    
     return (
         <SafeAreaView style={styles.container}>
@@ -133,7 +153,7 @@ const CalendarScreen  = (props:RouteParams) => {
             <View style={{ alignItems:'center', marginTop:10}}>
                 <ButtonComponent 
                     title="Confirmar Datas" 
-                    onPress={()=>console.log('oi')}
+                    onPress={goToFinalize}
                 />
             </View>
         </SafeAreaView>
