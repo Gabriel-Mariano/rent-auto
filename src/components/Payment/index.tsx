@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS } from '@src/themes/colors';
 import { FONTS } from '@src/themes/fonts';
 import { IPaymentProps } from './index.d';
 
-import PaymentListComponent from '../PaymentList';
-import { IPaymentListProps } from '../PaymentList/index.d';
+import PaymentOptionsComponent from '../PaymentOptions';
 
 const PaymentCompent:React.FC<IPaymentProps> = (props) => {
     const { title } = props;
-    const payments = ['Boleto','Cartão de Crédito'];
+    const payments = [
+        {
+            label:'Boleto',
+            value:0,
+        },
+        {
+            label:'Cartão',
+            value:1
+        }
+    ];
 
     return (
         <View style={styles.container}>
@@ -19,7 +27,7 @@ const PaymentCompent:React.FC<IPaymentProps> = (props) => {
                 </Text>
             </View>
             <View style={styles.areaPayments}>
-                <PaymentListComponent
+                <PaymentOptionsComponent
                     data={payments}
                 />
             </View>
@@ -50,6 +58,6 @@ const styles = StyleSheet.create({
         color:COLORS.dark
     },
     areaPayments:{
-        marginTop:20
+        marginTop:20,
     }
 })

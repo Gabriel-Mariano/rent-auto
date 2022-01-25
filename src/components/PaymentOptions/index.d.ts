@@ -1,5 +1,10 @@
+interface IPaymentOptionsAttr {
+    label:string;
+    value:number;
+}
+
 interface IPaymentOptionProps {
-    text?:string;
+    data:IPaymentOptionsAttr[];
 }
 
 export { IPaymentOptionProps } ;

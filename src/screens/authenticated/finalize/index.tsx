@@ -1,7 +1,9 @@
-import PaymentCompent from '@src/components/Payment';
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import {  } from 'react-native-gesture-handler';
+import { View, Text } from 'react-native';
+import { ScrollView  } from 'react-native-gesture-handler';
+
+import ButtonComponent from '@src/components/Button';
+import PaymentCompent from '@src/components/Payment';
 import styles from './styles';
 
 const FinalizeScreen = () => {
@@ -9,7 +11,7 @@ const FinalizeScreen = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.titleScreen}>
-                    Finalizar
+                    Confirmar Reserva
                 </Text>
             </View>
             <ScrollView style={styles.body}>
@@ -46,8 +48,10 @@ const FinalizeScreen = () => {
                     <Text style={styles.label}>Até:</Text>
                     <Text style={styles.label}>Valor:</Text>
                 </View>
-
                 <PaymentCompent title="Forma de Pagamento" />
+                <View style={{ alignSelf:'center', marginVertical:20}}>
+                    <ButtonComponent title="Finalizar" onPress={()=>{} }/>
+                </View>
             </ScrollView>
         </View>
     );

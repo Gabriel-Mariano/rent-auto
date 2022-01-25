@@ -59,7 +59,7 @@ const Details = (props: RouteParams) => {
                 </View>
                 <View style={styles.wrapperContent}>
                     <Text style={styles.label}>Ao dia</Text>
-                    <Text style={styles.value}>R${price}</Text>
+                    <Text style={styles.value}>R$ {price}</Text>
                 </View>
             </View>
             <InfoItems

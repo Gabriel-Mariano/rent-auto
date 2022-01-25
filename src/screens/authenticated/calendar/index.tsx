@@ -93,7 +93,7 @@ const CalendarScreen  = (props:RouteParams) => {
                     textColor: '#FFFFFF'
                 }
         }
-
+        
         const totally = range * price!;
         
         setMarkedDates(marked);
@@ -141,12 +141,12 @@ const CalendarScreen  = (props:RouteParams) => {
                         Total
                     </Text>
                     <Text style={styles.describe}>
-                        R${price} x {daysRange && daysRange+1} diárias
+                        R$ {price} x {daysRange && daysRange+1} diárias
                     </Text>
                 </View>
                 <View>
                     <Text style={styles.total}>
-                        R$ {total}
+                        R$ {total?.toFixed(2)}
                     </Text>
                 </View>
             </View>
