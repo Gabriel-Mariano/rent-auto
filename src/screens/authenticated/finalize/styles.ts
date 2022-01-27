@@ -30,13 +30,18 @@ const styles = StyleSheet.create({
         paddingHorizontal:30,
     },
     areaTitle:{
-        paddingVertical:20,
+        // paddingVertical:30,
+        marginVertical:22
     },
     label:{
         fontFamily:FONTS.semiBold,
         fontSize:16,
         color:COLORS.dark,
         marginTop:10
+    },
+    description:{
+        fontFamily:FONTS.regular,
+        fontSize:16
     }
 });
 

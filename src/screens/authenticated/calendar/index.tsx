@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { listBookings } from '@src/services/bookings';
 import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -10,6 +11,7 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ButtonComponent from '@src/components/Button';
 import moment from 'moment';
+import { COLORS } from '@src/themes/colors';
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -34,16 +36,39 @@ LocaleConfig.locales['fr'] = {
 LocaleConfig.defaultLocale = 'fr';
 
 const CalendarScreen  = (props:RouteParams) => {
+    const [unavailableDays, setUnavailableDays] = useState([]);
     const [markedDates, setMarkedDates] = useState({});
     const [isStartDate, setIsStartDate] = useState(false);
     const [isEndDate, setIsEndDate] = useState(false);
     const [startDate, setStartDate] = useState('');
     const [daysRange, setDaysRange] = useState<number>();
     const [total, setTotal] = useState<number>();
+    const [disabledDays, setDisabledDays] = useState({});
 
-    const { brand, price, exchange, fuel, id, km, name, photo } = props.route.params;
+    const unavailable = [
+        { start:'2022-01-20', end:'2022-01-22'},
+        { start:'2022-01-30', end:'2022-01-31'},
+    ];
+
+    const { brand, price, exchange, fuel, id, km, name, photo, renavam, licensePlate } = props.route.params;
     
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
+
+    const bookings = useCallback(async () => {
+        const { data, status } = await listBookings(id!);
+
+        if(status){
+            setUnavailableDays(data.result);
+        } 
+    },[id]);
+
+    useEffect(()=> {
+        bookings();
+    },[id])
+
+    useEffect(()=>{
+        renderUnavailableDays();
+    },[])
 
     const selectDate = (dateString:string) => {
         return isStartDate === false
@@ -53,13 +78,20 @@ const CalendarScreen  = (props:RouteParams) => {
 
     const selectStartDate = (dateString:string) => {
         const markedDates = {}
+        
+        const isInvalid = validateAvailableDays(dateString);
+
+        if(isInvalid){
+            return console.log('Não é permitido selecionar esse dia')
+        }
+        
         markedDates[dateString] = { 
             startingDay: true, 
             color:'#ED2F59', 
             textColor: '#FFFFFF'
         }
-
-        setMarkedDates(markedDates)
+        
+        setMarkedDates({...disabledDays,...markedDates})
         setIsStartDate(true)
         setIsEndDate(false)
         setStartDate(dateString)
@@ -71,16 +103,23 @@ const CalendarScreen  = (props:RouteParams) => {
         const range = end.diff(start, 'days');
         
         range > 0
-        ? successfullySelected(start, range)
-        : failedSelected()
+        ? selectMultipleDays(start, range)
+        : selectOneDay(dateString, range)
     }
 
-    const successfullySelected = (start:moment.Moment, range:number) => {
+    const selectMultipleDays = (start:moment.Moment, range:number) => {
         const marked = markedDates;
-
+        
         for (let i = 1; i <= range; i++ ){
+            
             const tempDate = start.add(1, 'day');
             const dateFormat = moment(tempDate).format('YYYY-MM-DD');
+    
+            const isInvalid = validateAvailableDays(dateFormat);
+            
+            if(isInvalid) {
+                return console.log('Não é permitido selecionar este periodo')
+            }
             
             i < range
                 ? marked[dateFormat] = { 
@@ -90,21 +129,70 @@ const CalendarScreen  = (props:RouteParams) => {
                 : marked[dateFormat] = {
                     endingDay:true, 
                     color: '#ED2F59', 
-                    textColor: '#FFFFFF'
+                    textColor: '#FFFFFF',
                 }
         }
         
         const totally = range * price!;
         
-        setMarkedDates(marked);
+        setMarkedDates({...disabledDays,...marked});
         setIsStartDate(false)
         setIsEndDate(true)
         setStartDate('')
-        setDaysRange(range);
+        setDaysRange(range+1);
         setTotal(totally)
     }
 
-    const failedSelected = () => console.log('Select an upcomming date!');
+    // const failedSelected = () => console.log('Select an upcomming date!');
+    const selectOneDay = (dateString:string, range:number) => {
+        const marked = markedDates;
+
+        marked[dateString] = {
+            startingDay:true,
+            endingDay:true, 
+            color: '#ED2F59', 
+            textColor: '#FFFFFF',
+        }
+
+        const totally = (range+1) * price!;
+
+        setMarkedDates({...disabledDays,...marked});
+        setIsStartDate(false)
+        setIsEndDate(true)
+        setStartDate('')
+        setDaysRange(range+1);
+        setTotal(totally)
+    };
+
+    const validateAvailableDays = (dateString:string) => {
+        
+
+        const mappedDisabledDays = unavailable.map((values)=> {  
+            return moment(dateString).isBetween(values.start,values.end,null,'[]');
+        });
+
+        return mappedDisabledDays.some((items)=> items === true )
+
+    }
+
+    const renderUnavailableDays = () => {
+        const marked = markedDates;
+
+        for (const iterator of unavailable) {
+
+            const start = moment(iterator.start)
+            const period = start.add(1, 'day');
+            const dateFormat = moment(period).format('YYYY-MM-DD');
+            
+            marked[iterator.start] = { disabled: true, startingDay: true, color: COLORS.light, endingDay: true,  disableTouchEvent: true }
+
+            marked[dateFormat] = { disabled: true, startingDay: true, color: COLORS.light, endingDay: true,  disableTouchEvent: true }
+
+            marked[iterator.end] = { disabled: true, startingDay: true, color: COLORS.light, endingDay: true,  disableTouchEvent: true }
+        }
+
+        setDisabledDays(marked);
+    }
 
     const goToFinalize = () => {
         navigation.navigate('Origin', {
@@ -118,10 +206,12 @@ const CalendarScreen  = (props:RouteParams) => {
                 fuel,
                 km,
                 brand,
+                renavam,
+                licensePlate,
              }
         });
      }
-   
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -141,7 +231,7 @@ const CalendarScreen  = (props:RouteParams) => {
                         Total
                     </Text>
                     <Text style={styles.describe}>
-                        R$ {price} x {daysRange && daysRange+1} diárias
+                        R$ {price} x {daysRange && daysRange} diárias
                     </Text>
                 </View>
                 <View>

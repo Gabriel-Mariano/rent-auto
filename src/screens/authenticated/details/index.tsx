@@ -12,7 +12,7 @@ import ButtonComponent from '@src/components/Button';
 import InfoItems from '@src/components/InfoItems';
 
 const Details = (props: RouteParams) => {
-    const { id, name, brand, price, photo, km, fuel, exchange } = props.route.params;
+    const { id, name, brand, price, photo, km, fuel, exchange, renavam, licensePlate } = props.route.params;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
 
     const renderPaths = () => {
@@ -26,7 +26,7 @@ const Details = (props: RouteParams) => {
         }
         return path[photo!].uri;
     }
-
+    
     const goToCalendarScreen = () => {
        navigation.navigate('Origin', {
            screen:'Calendar',
@@ -38,7 +38,9 @@ const Details = (props: RouteParams) => {
                 photo,
                 km,
                 fuel,
-                exchange
+                exchange,
+                renavam,
+                licensePlate
             }
        });
     }

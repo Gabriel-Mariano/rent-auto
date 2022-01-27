@@ -14,6 +14,7 @@ const ListCardComponent:React.FC<IDataProps> = props => {
             renderItem={({ item, index }) => {
                 return (
                     <Card 
+                        id={item.id}
                         name={item.name}
                         brand={item.brand.name}
                         price={item.price.toFixed(2)}
@@ -22,6 +23,8 @@ const ListCardComponent:React.FC<IDataProps> = props => {
                         fuel={item.fuel}
                         km={item.km}
                         exchange={item.exchange}
+                        renavam={item.renavam}
+                        licensePlate={item.licensePlate}
                     />  
                 );
             }}

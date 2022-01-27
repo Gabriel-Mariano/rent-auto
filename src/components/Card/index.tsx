@@ -21,7 +21,9 @@ const CardComponent: React.FC<IAutoProps> = props => {
         available = true, // data fake
         km,
         exchange,
-        fuel
+        fuel,
+        renavam,
+        licensePlate
      } = props;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
     
@@ -58,7 +60,7 @@ const CardComponent: React.FC<IAutoProps> = props => {
                 </Text>
             </View>
     }
-
+   
     const goToDetails = () => {
         navigation.navigate('Origin', {
             screen:'Details',
@@ -70,11 +72,13 @@ const CardComponent: React.FC<IAutoProps> = props => {
                 photo,
                 km,
                 fuel,
-                exchange
+                exchange,
+                renavam,
+                licensePlate
             }
         });
     }
-
+    
     return (
         <Pressable
             style={styles.container}
