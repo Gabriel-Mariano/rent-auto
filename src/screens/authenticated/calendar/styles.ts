@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     },
     wrapperInfo:{
         width:'100%',
-        height:150,
+        paddingVertical:30,
 
         flexDirection:'row',
         justifyContent:'space-between',
