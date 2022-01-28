@@ -111,7 +111,7 @@ const CalendarScreen  = (props:RouteParams) => {
         const isInvalid = validateAvailableDays(dateString);
 
         if(isInvalid){
-            return console.log('Não é permitido selecionar esse dia')
+            return null;
         }
         
         markedDates[dateString] = { 
@@ -153,7 +153,7 @@ const CalendarScreen  = (props:RouteParams) => {
             const isInvalid = validateAvailableDays(dateFormat);
             
             if(isInvalid) {
-                return console.log('Não é permitido selecionar este periodo')
+                return null;
             }
 
             
@@ -178,8 +178,6 @@ const CalendarScreen  = (props:RouteParams) => {
         setDaysRange(range+1);
         setTotal(totally)
     }
-
-    // const failedSelected = () => console.log('Select an upcomming date!');
 
     const selectOneDay = (dateString:string, range:number) => {
         const marked = markedDates;
@@ -280,7 +278,6 @@ const CalendarScreen  = (props:RouteParams) => {
                     />
                     <TouchableWithoutFeedback onPress={unSelect}>
                         <Legend data={legends}/>
-                        
                         <View style={styles.wrapperInfo}>
                             <View>
                                 <Text style={styles.label}>

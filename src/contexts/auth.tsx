@@ -45,7 +45,6 @@ export const AuthProvider: React.FC = ({children}) => {
         
         }catch(err){
             if(err.response.status === 401){
-                console.log(err.response)
                 return Alert.alert("Ops",err.response.data.message || "Falha na autenticação"); 
             }
             Alert.alert("Ops","Houve uma falha. Tente novamente mais tarde!");
