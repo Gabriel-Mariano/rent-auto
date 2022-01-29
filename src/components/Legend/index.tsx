@@ -1,16 +1,14 @@
-import { COLORS } from '@src/themes/colors';
-import { FONTS } from '@src/themes/fonts';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { FONTS } from '@src/themes/fonts';
 import { ILegendProps } from './index.d';
 
 const LegendCompenet:React.FC<ILegendProps> = props => {
     const { title, data } = props;
 
     const renderDescriptions = () => (
-        data?.map((values)=> 
-            <>
+        data?.map((values, index)=> 
+            <View key={index}>
                 {
                     !values.color 
                         ? null
@@ -24,7 +22,7 @@ const LegendCompenet:React.FC<ILegendProps> = props => {
                     {values.description}
                 </Text>
                 
-            </>
+            </View>
         )
     )
 
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
         width:10, 
         height:10,
         borderRadius:10,
-        borderWidth:1,
-        borderColor:COLORS.dark
+        // borderWidth:1,
+        // borderColor:COLORS.dark
     }
 })

@@ -43,5 +43,4 @@ export const styles = StyleSheet.create({
         fontFamily: FONTS.bold,
         fontSize: 18, 
     }
-
 });

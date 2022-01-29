@@ -40,6 +40,12 @@ export const PressableArrowIcon = (props:any) => {
                 params:{...location.params?.params}
             });
         }
+        if(props.screen === 'Identifier') {
+            navigation.navigate('Origin', {
+                screen:'Calendar',
+                params:{...location.params?.params}
+            });
+        }
 
     }
 

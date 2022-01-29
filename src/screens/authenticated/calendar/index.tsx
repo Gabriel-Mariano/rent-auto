@@ -1,19 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, ActivityIndicator } from 'react-native';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
+import { SafeAreaView, View, Text, ActivityIndicator, Alert } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { listBookings } from '@src/services/bookings';
 import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrawerProps } from '@src/routes/customized/customDrawer/types';
+
+import { IUnavailableDaysPros } from '@src/@types/calendarType';
 import { COLORS } from '@src/themes/colors';
 import { styles } from './styles';
 
+import AuthContext from '@src/contexts/auth';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Legend from '@src/components/Legend';
 import ButtonComponent from '@src/components/Button';
 import moment from 'moment';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 LocaleConfig.locales['fr'] = {
     monthNames: [
@@ -37,25 +40,20 @@ LocaleConfig.locales['fr'] = {
   };
 LocaleConfig.defaultLocale = 'fr';
 
-interface IUnavailableDaysPros {
-    autoId?:number;
-    start_date:string;
-    end_date:string;
-    userId?:number;
-}
-
 const CalendarScreen  = (props:RouteParams) => {
-    const [unavailableDays, setUnavailableDays] = useState<IUnavailableDaysPros[]>([]);
     const [markedDates, setMarkedDates] = useState({});
     const [isStartDate, setIsStartDate] = useState(false);
     const [isEndDate, setIsEndDate] = useState(false);
     const [startDate, setStartDate] = useState('');
     const [daysRange, setDaysRange] = useState<number>();
     const [total, setTotal] = useState<number>();
-    const [disabledDays, setDisabledDays] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-
+    const [disabledDays, setDisabledDays] = useState({});
+    const [unavailableDays, setUnavailableDays] = useState<IUnavailableDaysPros[]>([]);
+    
     const { brand, price, exchange, fuel, id, km, name, photo, renavam, licensePlate } = props.route.params;
+
+    const { user } = useContext(AuthContext);
 
     const legends = [
         {
@@ -239,6 +237,27 @@ const CalendarScreen  = (props:RouteParams) => {
     }
 
     const goToFinalize = () => {
+        if(daysRange === undefined) {
+            return Alert.alert('Opss..', 'Antes de prosseguir defina as data');
+        }
+        // console.log(user?.cpf)
+        if(user?.cpf === undefined){
+            return navigation.navigate('Origin',{ screen:'Identifier',
+                params: {
+                    id,
+                    name,
+                    photo,
+                    price,
+                    exchange,
+                    fuel,
+                    km,
+                    brand,
+                    renavam,
+                    licensePlate,
+                }
+        });
+        }
+
         navigation.navigate('Origin', {
             screen:'Finalize',
             params: {
