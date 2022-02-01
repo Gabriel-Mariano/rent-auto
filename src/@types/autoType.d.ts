@@ -17,7 +17,11 @@ interface IAutoProps {
     chassis?: string;
     available?: boolean;
     licensePlate?: string;
+    nextDateAvailable?:string;
     brand?:IBrandProps;
+    from?:string;
+    until?:string;
+    total?:number;
 }
 
 export { IAutoProps };

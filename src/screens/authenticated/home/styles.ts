@@ -18,5 +18,8 @@ export const styles = StyleSheet.create({
         marginTop:30,
         fontFamily:FONTS.bold,
         color:COLORS.dark,
+    },
+    wrapperListCards:{
+        flex:1
     }
 });

@@ -8,7 +8,7 @@ const LegendCompenet:React.FC<ILegendProps> = props => {
 
     const renderDescriptions = () => (
         data?.map((values, index)=> 
-            <View key={index}>
+            <View key={index} style={{ flexDirection:'row', alignItems:'center' }}>
                 {
                     !values.color 
                         ? null
@@ -18,7 +18,7 @@ const LegendCompenet:React.FC<ILegendProps> = props => {
                             ]} 
                           />
                 }
-                <Text style={styles.description}>
+                <Text style={styles.description} key={index}>
                     {values.description}
                 </Text>
                 
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     description:{
         fontFamily:FONTS.regular,
         fontSize:11,
+        marginHorizontal:4,
     },
     circle:{
         width:10, 

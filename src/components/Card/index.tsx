@@ -9,6 +9,7 @@ import { DrawerProps } from '@src/routes/customized/customDrawer/types';
 import { IAutoProps } from '@src/@types/autoType';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import moment from 'moment';
 
 const CardComponent: React.FC<IAutoProps> = props => {
     const { 
@@ -18,7 +19,8 @@ const CardComponent: React.FC<IAutoProps> = props => {
         price, 
         year, 
         photo, 
-        available = true, // data fake
+        available, // data fake
+        nextDateAvailable,
         km,
         exchange,
         fuel,
@@ -26,7 +28,7 @@ const CardComponent: React.FC<IAutoProps> = props => {
         licensePlate
      } = props;
     const navigation = useNavigation<NativeStackNavigationProp<DrawerProps>>();
-    
+
     const renderPaths = () => {
         const path = {
             onixPlus: {
@@ -56,7 +58,10 @@ const CardComponent: React.FC<IAutoProps> = props => {
                     Disponível em:
                 </Text>
                 <Text style={styles.valueUnavailable}>
-                    01/12/2021
+                    { nextDateAvailable 
+                        ? moment(nextDateAvailable).add(1,'day').format("DD-MM-YYYY")
+                        : null
+                    }
                 </Text>
             </View>
     }

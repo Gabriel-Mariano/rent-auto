@@ -9,6 +9,8 @@ import TextInput from '@src/components/TextInput';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ListCardComponent from '@src/components/ListCard';
 import BottomNavigator from '@src/components/BottomNavigator';
+import { useContext } from 'react';
+import AuthContext from '@src/contexts/auth';
 
 const Home:React.FC = () => {
     const [automobiles, setAutomobiles] = useState<IAutoProps[]>([]);
@@ -89,7 +91,7 @@ const Home:React.FC = () => {
                         rightContent={()=> <Icon name='search' size={18} /> }
                         style={{ width:'100%', marginTop:20 }}
                     />
-                    <View style={{ flex:1, }}>
+                    <View style={styles.wrapperListCards}>
                         {renderListCardComponent()}
                     </View>
             </View>

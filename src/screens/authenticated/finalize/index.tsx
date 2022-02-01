@@ -7,6 +7,7 @@ import AuthContext from '@src/contexts/auth';
 import ButtonComponent from '@src/components/Button';
 import PaymentCompent from '@src/components/Payment';
 import styles from './styles';
+import moment from 'moment';
 
 
 const FinalizeScreen = (props:RouteParams) => {
@@ -14,7 +15,11 @@ const FinalizeScreen = (props:RouteParams) => {
         name,
         brand,
         renavam,
-        licensePlate  
+        licensePlate,
+        price,
+        from,
+        until,
+        total
     } = props.route.params;
 
     const { user } = useContext(AuthContext);
@@ -70,9 +75,15 @@ const FinalizeScreen = (props:RouteParams) => {
                     </Text>
                 </View>
                 <View>
-                    <Text style={styles.label}>De:</Text>
-                    <Text style={styles.label}>Até:</Text>
-                    <Text style={styles.label}>Valor:</Text>
+                    <Text style={styles.label}>
+                        De: <Text style={styles.description}>{moment(from).format('DD-MM-YYYY')}</Text>
+                    </Text>
+                    <Text style={styles.label}>
+                        Até: <Text style={styles.description}>{moment(until).format('DD-MM-YYYY')}</Text>
+                    </Text>
+                    <Text style={styles.label}>
+                        Valor: <Text style={styles.description}>R$ {total}</Text>
+                    </Text>
                 </View>
                 <PaymentCompent title="Forma de Pagamento" />
                 <View style={{ alignSelf:'center', marginVertical:20}}>

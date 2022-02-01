@@ -20,6 +20,7 @@ const ListCardComponent:React.FC<IDataProps> = props => {
                         price={item.price.toFixed(2)}
                         photo={item.photo}
                         available={item.available}
+                        nextDateAvailable={item.nextDateAvailable}
                         fuel={item.fuel}
                         km={item.km}
                         exchange={item.exchange}

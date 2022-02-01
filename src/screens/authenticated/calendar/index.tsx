@@ -50,6 +50,9 @@ const CalendarScreen  = (props:RouteParams) => {
     const [isLoading, setIsLoading] = useState(false);
     const [disabledDays, setDisabledDays] = useState({});
     const [unavailableDays, setUnavailableDays] = useState<IUnavailableDaysPros[]>([]);
+
+    const [from, setFrom] = useState('');
+    const [until, setUntil] = useState('');
     
     const { brand, price, exchange, fuel, id, km, name, photo, renavam, licensePlate } = props.route.params;
 
@@ -122,6 +125,7 @@ const CalendarScreen  = (props:RouteParams) => {
         setIsStartDate(true)
         setIsEndDate(false)
         setStartDate(dateString)
+        setFrom(dateString);
     }
 
     const selectEndDate = (dateString:string) => {
@@ -142,18 +146,20 @@ const CalendarScreen  = (props:RouteParams) => {
 
     const selectMultipleDays = (start:moment.Moment, range:number) => {
         const marked = markedDates;
+        let end = '';
         
         for (let i = 1; i <= range; i++ ){
             
             const tempDate = start.add(1, 'day');
             const dateFormat = moment(tempDate).format('YYYY-MM-DD');
+            end = dateFormat;
     
             const isInvalid = validateAvailableDays(dateFormat);
             
             if(isInvalid) {
                 return null;
             }
-
+            
             
             i < range
                 ? marked[dateFormat] = { 
@@ -173,6 +179,7 @@ const CalendarScreen  = (props:RouteParams) => {
         setIsStartDate(false)
         setIsEndDate(true)
         setStartDate('')
+        setUntil(end);
         setDaysRange(range+1);
         setTotal(totally)
     }
@@ -193,6 +200,7 @@ const CalendarScreen  = (props:RouteParams) => {
         setIsStartDate(false)
         setIsEndDate(true)
         setStartDate('')
+        setUntil(dateString);
         setDaysRange(range+1);
         setTotal(totally)
     };
@@ -240,7 +248,6 @@ const CalendarScreen  = (props:RouteParams) => {
         if(daysRange === undefined) {
             return Alert.alert('Opss..', 'Antes de prosseguir defina as data');
         }
-        // console.log(user?.cpf)
         if(user?.cpf === undefined){
             return navigation.navigate('Origin',{ screen:'Identifier',
                 params: {
@@ -254,6 +261,9 @@ const CalendarScreen  = (props:RouteParams) => {
                     brand,
                     renavam,
                     licensePlate,
+                    from,
+                    until,
+                    total
                 }
         });
         }
@@ -271,6 +281,9 @@ const CalendarScreen  = (props:RouteParams) => {
                 brand,
                 renavam,
                 licensePlate,
+                from,
+                until,
+                total
              }
         });
      }
