@@ -10,6 +10,7 @@ import { RouteParams } from '@src/routes/customized/customStack/types/index.d';
 
 import ButtonComponent from '@src/components/Button';
 import InfoItems from '@src/components/InfoItems';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Details = (props: RouteParams) => {
     const { id, name, brand, price, photo, km, fuel, exchange, renavam, licensePlate } = props.route.params;
@@ -47,36 +48,39 @@ const Details = (props: RouteParams) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.contentImage}>
-                <Image
-                    source={renderPaths()}
-                    resizeMode='contain'
-                    style={styles.image}
-                />
-            </View>
-            <View style={styles.headerContent}>
-                <View style={styles.wrapperContent}>
-                    <Text style={styles.brand}>{brand}</Text>
-                    <Text style={styles.title}>{name}</Text>
-                </View>
-                <View style={styles.wrapperContent}>
-                    <Text style={styles.label}>Ao dia</Text>
-                    <Text style={styles.value}>R$ {price}</Text>
-                </View>
-            </View>
-            <InfoItems
-                {...{
-                    km,
-                    exchange,
-                    fuel
-                }}
-            />
-            <View>
-
-            </View>
+            <ScrollView 
+                style={styles.scroll}
+                showsVerticalScrollIndicator={false}
+            >
+                    <View style={styles.contentImage}>
+                        <Image
+                            source={renderPaths()}
+                            resizeMode='contain'
+                            style={styles.image}
+                        />
+                    </View>
+                    <View style={styles.headerContent}>
+                        <View style={styles.wrapperContent}>
+                            <Text style={styles.brand}>{brand}</Text>
+                            <Text style={styles.title}>{name}</Text>
+                        </View>
+                        <View style={styles.wrapperContent}>
+                            <Text style={styles.label}>Ao dia</Text>
+                            <Text style={styles.value}>R$ {price}</Text>
+                        </View>
+                    </View>
+                    <InfoItems
+                        {...{
+                            km,
+                            exchange,
+                            fuel
+                        }}
+                    />
+            </ScrollView>
             <View style={styles.footerContent}>
                 <ButtonComponent title='Próximo' onPress={goToCalendarScreen} />
             </View>
+            
             {/* <BottomNavigator focused="Home" /> */}
         </SafeAreaView>
     );

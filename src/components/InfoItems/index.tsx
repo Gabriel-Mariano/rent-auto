@@ -51,7 +51,8 @@ export default InfoItems;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        marginTop: 40
+        paddingTop:20,
+        paddingBottom:90
     },
     wrapperContent: {
         flexDirection: 'row',

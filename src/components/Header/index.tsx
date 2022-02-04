@@ -20,9 +20,7 @@ const HeaderComponent: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.leftContent}>
-                <Text>
-                    {renderPressableIcon()}
-                </Text>
+                {renderPressableIcon()}
             </View>
             <View>
                 <Image

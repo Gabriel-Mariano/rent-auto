@@ -10,6 +10,7 @@ import {
     IRegisterResponse,
     IAuthContextData  
 } from './auth.d';
+import { AxiosError } from "axios";
 
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
@@ -43,7 +44,8 @@ export const AuthProvider: React.FC = ({children}) => {
             
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         
-        }catch(err){
+        }catch(err:any){
+            
             if(err.response.status === 401){
                 return Alert.alert("Ops",err.response.data.message || "Falha na autenticação"); 
             }
@@ -71,7 +73,7 @@ export const AuthProvider: React.FC = ({children}) => {
 
             return data;
 
-        }catch(err){
+        }catch(err:any){
             if(err.response.status === 409){
                 return Alert.alert("Ops...", err?.response?.data?.message || "Usuário já existente 😑");
             }

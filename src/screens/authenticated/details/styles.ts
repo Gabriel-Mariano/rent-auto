@@ -52,10 +52,13 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: COLORS.danger
     },
+    scroll:{
+        
+    },
     footerContent:{
-        width:'100%',
         position:'absolute',
-        bottom:90,
+        bottom:10,
+        width:'100%',
         justifyContent:'center',
         paddingHorizontal:50
     }
